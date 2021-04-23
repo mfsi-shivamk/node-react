@@ -3,37 +3,17 @@ import './App.css';
 
 function App() {
   return (
-    <h1>Test
-      <p style={{
-        backgroundColor:"pink",
-        borderStyle: "dotted dashed solid double",
-      border:"2px solid Tomato", backgroundImage: `url(${"static/src/img/main.jpg"})`}}>This is pink some text.</p>
-    <h1>Test
-
-      <p>This is some text.</p>
-      <p>This is some text.</p>
-    </h1>
-    </h1>
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-
-    //       <h1> YOLO</h1>
-    //     </p>
-    //     <p>
-    //       Edit <code>src/App.js</code> and save to reload.
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //   </header>
-    // </div>
+//     <div>
+//   <h1>text formatting</h1>
+//   <p>This text is styled with some of the text formatting properties. The heading uses the text-align, text-transform, and color properties.
+//   The paragraph is indented, aligned, and the space between characters is specified. The underline is removed from this colored
+//   <a target="_blank" href="tryit.asp?filename=trycss_text">"Try it Yourself"</a> link.</p>
+// </div>
+<div className="container">
+  <div className="item"></div>  <div className="item"></div>  <div className="item"></div>
+  <div className="item"></div>  <div className="item"></div>  <div className="item"></div>
+  <div className="item"></div>  <div className="item"></div>  <div className="item"></div>
+</div>
   );
 }
 
