@@ -22,7 +22,8 @@ export class App extends Component {
     })
     .then(r=> {console.log(r);
       if(r && r.errors && r.errors.status)
-      this.setState({user: r.data})
+      this.setState({user: r.data});
+      localStorage.setItem("user", r.data.userName)
     })
     .catch(err => {
       cookies.remove('XSRF-token');
