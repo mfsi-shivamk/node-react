@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import React from 'react'; 
 import Header from './Component/Header/Header';
@@ -14,7 +14,7 @@ function App() {
       <br/>
       <br/>
       <br/>
-      {images.sample1.map(r => <ImageBox {...r} />)}
+      {images.sample1.map((r,i) => <ImageBox {...r} key={i}/>)} 
     </React.Fragment>
   );
 }
