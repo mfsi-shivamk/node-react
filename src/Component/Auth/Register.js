@@ -9,6 +9,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from "@material-ui/core/FormControl";
 import Email from '@material-ui/icons/Email';
 import Lock from '@material-ui/icons/Lock';
+import Phone from '@material-ui/icons/Phone';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
@@ -62,7 +63,7 @@ export default function ComplexGrid() {
                   <FormControl fullWidth={true}>
                         <Input placeholder="First Name" className={classes.inputPadding} id="firstName" endAdornment={ <InputAdornment position="start"> <Email /> </InputAdornment> } />
                         <Input placeholder="Last Name" className={classes.inputPadding} id="lastName" endAdornment={ <InputAdornment position="start"> <Lock /> </InputAdornment> } />
-                        <Input placeholder="Phone" className={classes.inputPadding} id="phone" endAdornment={ <InputAdornment position="start"> <Lock /> </InputAdornment> } />
+                        <Input placeholder="Phone" className={classes.inputPadding} id="phone" endAdornment={ <InputAdornment position="start"> <Phone /> </InputAdornment> } />
                   </FormControl>
                   <Box textAlign='center'>
                   <Button className={classes.buttonPadding} onClick={()=>{register();}} color="secondary">Register</Button>
