@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router';
 import Cookies from 'universal-cookie';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,14 +13,39 @@ import Lock from '@material-ui/icons/Lock';
 import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
-import axios from '../../axios';
-const cookies = new Cookies();
+// import axios from '../../axios';
+import { gql, useMutation } from '@apollo/client';
+
+
 const useStyles = makeStyles((theme) => ({ inputPadding:{  padding: '8px' }, paperContainer: { }, cardHeader:{textAlign: 'center' }, buttonPadding:{  marginBottom: '1px', marginTop:'25px' }, root: { flexGrow: 1, justifyContent: 'center'},  cardHidden: { opacity: "0", transform: "translate3d(0, -60px, 0)" }, paper: { padding: theme.spacing(2), margin: 'auto', maxWidth: 500, }, image: { width: 128, height: 128, }, img: { margin: 'auto', display: 'block', maxWidth: '100%', maxHeight: '100%', }, }));
 
 export default function ComplexGrid() {
+  const history = useHistory();
+
+  const cookies = new Cookies();
+  const [formState, setFormState] = React.useState({
+    email: '',
+    password: ''
+  });
+  const logins =  gql`
+  mutation LOGIN_MUTATION(
+  $email: String!
+  $password: String!
+){
+  login(email: $email, key:$password) {
+    user {
+          id
+      		smsSent {
+      		id
+      		body
+  					otp
+      		}
+        }
+    		token
+    }
+} `;
   const classes = useStyles();
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
-
   React.useEffect(() => {
     let id = setTimeout(function() {
       setCardAnimation("");
@@ -29,29 +55,17 @@ export default function ComplexGrid() {
       window.clearTimeout(id);
     };
   });
-
-  const login = function(event){
-    const phone = document.getElementById('phone').value;
-    console.log(phone);
-    const password = document.getElementById('password').value;
-    console.log(password);
-    axios({
-        method: 'post',
-        url: '/api/v1/auth/login',
-        data: {
-          phone: '9828770981',
-          password: '4dd364bb2cd2683c4e9d93a91fbcca2ff35f1647a5edfc09bd2aa9543638f617f48198d25362861b'
-        }
-      })
-      .then( r=>{
-        cookies.set('XSRF-token', r.data.token, { path: '/' });
-          setTimeout(()=>{
-            window.location = "/";
-          },1000)
-      })
-      .catch(e => {
-      })
-}
+  const [login] = useMutation(logins, {
+    variables: {
+      email : formState.email, password : formState.password
+    },
+    onCompleted: (r) => {
+      console.log(r);
+      const { login } = r;
+      cookies.set('XSRF-token', login.token, { path: '/' });
+      history.push('/');
+    }
+  });
   return (
       <div >
     <Grid container  spacing={3} direction="column" alignItems="center" justify="center" style={{ minHeight: '100vh' }}>
@@ -62,8 +76,8 @@ export default function ComplexGrid() {
               </CardHeader>
               <CardContent>
                   <FormControl fullWidth={true}>
-                        <Input placeholder="Phone" className={classes.inputPadding} id="phone" endAdornment={ <InputAdornment position="start"> <Email /> </InputAdornment> } />
-                        <Input placeholder="Password" className={classes.inputPadding} id="password" endAdornment={ <InputAdornment position="start"> <Lock /> </InputAdornment> } />
+                        <Input placeholder="Email" onChange={(e) => setFormState({ ...formState, email: e.target.value }) } className={classes.inputPadding} id="email" endAdornment={ <InputAdornment position="start"> <Email /> </InputAdornment> } />
+                        <Input placeholder="Password" onChange={(e) => setFormState({ ...formState, password: e.target.value }) } className={classes.inputPadding} id="password" endAdornment={ <InputAdornment position="start"> <Lock /> </InputAdornment> } />
                   </FormControl>
                   <Box textAlign='center'>
                   <Button className={classes.buttonPadding} onClick={()=>{login();}} color="secondary">Login</Button>

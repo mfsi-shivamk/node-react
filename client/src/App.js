@@ -7,6 +7,7 @@ import Logout from './Component/Auth/Logout';
 import Register from './Component/Auth/Register';
 import Dashboard from './Component/Dashboard/Dashboard';
 import ErrorPage from './Component/Error/404';
+import './App.css'
 const cookies = new Cookies();
 export class App extends Component {
   constructor(props) {
