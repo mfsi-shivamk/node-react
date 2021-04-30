@@ -1,9 +1,14 @@
+body {
+  overflow-y: hidden; 
+  overflow-x: auto; 
+}
 /* Header */
 .header ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow-y: hidden; 
+  overflow-x: auto; 
   opacity: .7  ;
   background-color: #333;
 }

@@ -5,9 +5,9 @@ function Form(props) {
     return (
         <div>
             <form action="/">
-                {Object.keys(props).map(r => {console.log(r, 122)
-                            return <React.Fragment>
-                                <label for={props[r]['for']}>{props[r]['label']}</label>
+                {Object.keys(props).map((r, i) => {
+                            return <React.Fragment key={i}>
+                                <label htmlFor={props[r]['for']}>{props[r]['label']}</label>
                                 <input type={props[r]['type']} id={props[r]['id']} name={props[r]['name']} placeholder={props[r]['placeholder']} />
                             </React.Fragment>
                 })}

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */ 
 import React from 'react'
 
 const style = {
@@ -5,12 +6,12 @@ const style = {
 }
 function ImageBox({url, desc}) {
     return (
-        <div class="responsive">
-  <div class="gallery">
-    <a target="_blank" href={url}>
+        <div className="responsive">
+  <div className="gallery">
+    <a target="_blank" rel="noreferrer" href={url}>
       <img src={url} alt="Forest" style={style.img}/>
     </a>
-    <div class="desc">{desc}</div>
+    <div className="desc">{desc}</div>
   </div>
 </div>
     )
