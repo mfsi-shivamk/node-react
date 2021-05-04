@@ -19,9 +19,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { useHistory } from "react-router-dom";
-import { fade, useTheme } from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/core/styles';
-
+import { fade, makeStyles, useTheme } from '@material-ui/core/styles';
+import Header from '../Header/Header'; 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -126,7 +125,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Header() {
+export default function MiniDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
@@ -144,78 +143,31 @@ export default function Header() {
   };
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar
-        color="inherit"
-        style={{boxShadow: "none"}}
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
-          >
-            <Typography variant="h6" noWrap>
-            {(localStorage.user && localStorage.user.length)  ? localStorage.user[0].toUpperCase():"A"}
-          </Typography>
-          </IconButton>
-            <MenuIcon onClick={open? handleDrawerClose : handleDrawerOpen}/>
-            <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        style={{  opacity: 0.6 }}
-        variant="permanent"
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
-        })}
-        classes={{
-          paper: clsx({
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
-          }),
-        }}
-      >
-        <div className={classes.toolbar} style={{float:'left'}}>
-          <IconButton onClick={handleDrawerClose}>
-          <Typography variant="h6" noWrap>
-            {(localStorage.user && localStorage.user.length)  ? localStorage.user.toUpperCase():"A"}
-          </Typography>          
-          </IconButton>
-        </div>
-        <Divider />
-        <List>
-          {['login', 'register','movie'].map((text, index) => (
-            <ListItem button key={text.toUpperCase()} onClick={()=>routeChange(text)}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text[0].toUpperCase()+text.slice(1)} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-      </Drawer>
-    </div>
+      <main style={{backgroundColor:"white", height:"100%"}}className={classes.content}>
+        <div className={classes.toolbar} />
+        <Typography paragraph>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
+          facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
+          gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
+          donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
+          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
+          Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
+          imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
+          arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
+          donec massa sapien faucibus et molestie ac.
+        </Typography>
+        <Typography paragraph>
+          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
+          facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
+          tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
+          consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
+          vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
+          hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
+          tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
+          nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
+          accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
+        </Typography>
+      </main>
   );
 }
