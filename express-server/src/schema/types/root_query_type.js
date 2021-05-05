@@ -39,32 +39,38 @@ const RootQueryType = new GraphQLObjectType({
       type: new GraphQLObjectType({
         name: 'PageType',
         fields: () => ({
-            totalCount: { type: GraphQLInt },
+            totalPages: { type: GraphQLInt },
+            page: { type: GraphQLInt },
             movie: { type: new GraphQLList(MovieType) }
         })
     }),
       args: {
           limit: { type: GraphQLInt },
           filter: { type: GraphQLString },
-          offset: { type: GraphQLInt }
+          page: { type: GraphQLInt }
       },
       resolve(parentValue, args, req) {
         const where = args.filter ? { name: { $like: "%"+args.filter+"%"}} : {}
-        const limit = args.limit ? args.limit : 10;
-        const offset = args.offset ? args.offset : 0;
+        const limit = args.limit ? args.limit : 3;
+        const page = args.page ? args.page : 1;
         return db.movie.count({
           where
         })
         .then(totalCount => {
+          const pages = Math.ceil(totalCount / limit);
+          const offset = limit * (page - 1);
           return db.movie.findAll({
             order:[['id','DESC']],
             where,
             limit,
             offset
-          }).then(r => [JSON.parse(JSON.stringify(r)), totalCount])
+          }).then(r => [JSON.parse(JSON.stringify(r)), pages || 0])
         })
-        .then(([movie,totalCount])=>{
-          return {movie,totalCount};
+        .then(([movie,totalPages])=>{
+          return {movie,totalPages, page};
+        }).catch(e => {
+          console.log(e);
+          return e;
         })
       },
     }

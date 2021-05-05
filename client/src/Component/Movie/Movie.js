@@ -1,3 +1,6 @@
+import Pagination from '@material-ui/lab/Pagination';
+import Paper from '@material-ui/core/Paper';
+import Skeleton from '@material-ui/lab/Skeleton';
 import Rating from '@material-ui/lab/Rating';
 import React, { useEffect, useState } from "react";
 import AppBar from '@material-ui/core/AppBar';
@@ -249,9 +252,10 @@ addRatingToMovie(rating: $rating, movieId:$movieId) {
 }
 }`;
 const FEED_QUERY = gql`
-query MovieFetch($filter: String, $limit: Int, $offset: Int) {
-  movie(filter: $filter, limit: $limit, offset: $offset) {
-      totalCount
+query MovieFetch($filter: String, $limit: Int, $page: Int) {
+  movie(filter: $filter, limit: $limit, page: $page) {
+      totalPages
+      page
       movie{
       id
       name
@@ -287,6 +291,11 @@ const Movie = () => {
     description: '',
     actorInfo: ''
   });
+  const [loadState, setLoadState] = React.useState({
+    limit: 3,
+    page: 1,
+    filter: ''
+  });
 
   const [createMovie] = useMutation(createMovies, {
     variables: {
@@ -305,7 +314,6 @@ const Movie = () => {
   const updateRate = function (id, val) {
     updateRating({ variables: { movieId: Number(id), rating: Number(val) } })
   }
-  const [searchFilter, setSearchFilter] = useState('');
   const [executeSearch, { loading, error, data, refetch }] = useLazyQuery(
     FEED_QUERY/* , { variables : {filter: searchFilter} } */
   );
@@ -325,11 +333,11 @@ const Movie = () => {
             <form onSubmit={(e) => {
               e.preventDefault();
               executeSearch({
-                variables: { filter: searchFilter }
+                variables: loadState
               })
             }}>
-              <InputBase placeholder="Search…" classes={{ root: classes.inputRoot, input: classes.inputInput, }} inputProps={{ 'aria-label': 'search' }} onChange={(e) => setSearchFilter(e.target.value)} />
-              </form>
+              <InputBase placeholder="Search…" classes={{ root: classes.inputRoot, input: classes.inputInput, }} inputProps={{ 'aria-label': 'search' }} onChange={(e) => setLoadState({...loadState, filter:e.target.value})} />
+            </form>
           </div>
           {/* </Typography> */}
           <div className={classes.heroButtons}>
@@ -337,7 +345,7 @@ const Movie = () => {
               <Grid item xs={3}>
                 <Button variant="contained" color="primary" onClick={handleOpen}>
                   Add
-                  </Button>
+                  </Button> 
 
                 <Modal aria-labelledby="transition-modal-title" aria-describedby="transition-modal-description" className={classes.modal} open={open} onClose={handleClose} closeAfterTransition BackdropComponent={Backdrop} BackdropProps={{ timeout: 500, }} >
                   <Fade in={open}>
@@ -413,6 +421,35 @@ const Movie = () => {
           )))}
         </Grid>
       </Container>
+      {/* <Container className={classes.cardGrid} maxWidth="md">
+        <Grid container spacing={4}> */}
+      {loading ? (
+
+        <Container className={classes.cardGrid} maxWidth="md">
+          <Grid container spacing={4}>{Array.from(new Array(3)).map(r => (
+            <Grid item key={1} xs={12} sm={6} md={4}>
+              <Card className={classes.card}>
+                <Skeleton variant="rect" width="100%" height={118} />
+                <CardContent className={classes.cardContent}>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    <Skeleton width="40%" />
+                  </Typography>
+                  <Typography>
+                    <Skeleton width="70%" />
+                  </Typography>
+                  <Typography>
+                    <Skeleton width="60%" />
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                </CardActions>
+              </Card>
+            </Grid>))}   </Grid>
+        </Container>
+      ) :
+        <Grid container justify="center">
+          <Pagination page={(data && data.movie )? data.movie.page : 1} count={(data && data.movie )? data.movie.totalPages : 0} onChange={(e, p) => { executeSearch({ variables: {...loadState, page: p } }); setLoadState({ ...formState, page: p })}}/>
+        </Grid>}
     </main>
   );
 }
