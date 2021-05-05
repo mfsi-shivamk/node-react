@@ -14,6 +14,9 @@ module.exports = {
     description: {
       type: Sequelize.TEXT
     },
+    actorInfo: {
+      type: Sequelize.TEXT
+    },
     totalAvgRating: {
       type: Sequelize.DECIMAL(10, 2)
     },

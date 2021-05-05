@@ -50,7 +50,7 @@ export default function ComplexGrid() {
       })
       .then( r=>{
           setTimeout(()=>{
-            window.location = "/";
+            window.location = "/login";
           },1000)
       })
       .catch(e => {
