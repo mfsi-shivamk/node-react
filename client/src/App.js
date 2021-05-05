@@ -131,7 +131,7 @@ export default function App() {
     .catch(err => {
       localStorage.setItem("loggedIn", false);
       cookies.remove('XSRF-token');
-      if(!window.location.href.includes('login')) window.location.href = '/login';
+      console.log(JSON.parse(JSON.stringify(err)));
     });
   }, []);
   return (

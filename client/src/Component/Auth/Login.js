@@ -13,6 +13,8 @@ import Input from '@material-ui/core/Input';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import axios from '../../axios';
+import Link from '@material-ui/core/Link';
+
 const cookies = new Cookies();
 const useStyles = makeStyles((theme) => ({ inputPadding:{  padding: '8px' }, paperContainer: { }, cardHeader:{textAlign: 'center' }, buttonPadding:{  marginBottom: '1px', marginTop:'25px' }, root: { flexGrow: 1, justifyContent: 'center'},  cardHidden: { opacity: "0", transform: "translate3d(0, -60px, 0)" }, paper: { padding: theme.spacing(2), margin: 'auto', maxWidth: 500, }, image: { width: 128, height: 128, }, img: { margin: 'auto', display: 'block', maxWidth: '100%', maxHeight: '100%', }, }));
 
@@ -69,6 +71,9 @@ export default function ComplexGrid() {
                   <Box textAlign='center'>
                   <Button className={classes.buttonPadding} onClick={()=>{login();}} color="secondary">Login</Button>
                   </Box>
+                  <Link href="/register" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
               </CardContent>
                 </Card>
             </form>

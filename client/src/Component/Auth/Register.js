@@ -1,3 +1,4 @@
+import Link from '@material-ui/core/Link';
 import Cookies from 'universal-cookie';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -74,6 +75,9 @@ export default function ComplexGrid() {
                   <Box textAlign='center'>
                   <Button className={classes.buttonPadding} onClick={()=>{register();}} color="secondary">Register</Button>
                   </Box>
+                  <Link href="/login" variant="body2">
+                {"Already have an account? Login"}
+              </Link>
               </CardContent>
                 </Card>
             </form>
