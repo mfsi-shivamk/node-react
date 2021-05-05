@@ -45,6 +45,8 @@
     "express-sanitizer": "^1.0.5",
     "express-session": "^1.17.0",
     "graphql": "^15.5.0",
+    "graphql-subscriptions": "^1.2.1",
+    "graphql-tools": "^7.0.4",
     "helmet": "^4.5.0",
     "joi": "^14.3.1",
     "joi-date-extensions": "^1.2.0",
@@ -61,6 +63,7 @@
     "sequelize": "4.38.0",
     "sequelize-cli": "^5.5.1",
     "stack-trace": "0.0.10",
+    "subscriptions-transport-ws": "^0.9.18",
     "twilio": "^3.51.0"
   }
 }

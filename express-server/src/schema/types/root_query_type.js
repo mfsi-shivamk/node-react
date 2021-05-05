@@ -3,6 +3,7 @@ const { GraphQLObjectType, GraphQLID, GraphQLNonNull, GraphQLList, GraphQLString
 const UserType = require('./user_type');
 const SmsType = require('./sms_type');
 const MovieType = require('./movie_type');
+const PageType = require('./page_type');
 const { db } = require('../../models');
 const {
   Page,
@@ -36,14 +37,7 @@ const RootQueryType = new GraphQLObjectType({
       },
     },
     movie: {
-      type: new GraphQLObjectType({
-        name: 'PageType',
-        fields: () => ({
-            totalPages: { type: GraphQLInt },
-            page: { type: GraphQLInt },
-            movie: { type: new GraphQLList(MovieType) }
-        })
-    }),
+      type: PageType,
       args: {
           limit: { type: GraphQLInt },
           filter: { type: GraphQLString },

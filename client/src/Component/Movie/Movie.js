@@ -269,54 +269,43 @@ query MovieFetch($filter: String, $limit: Int, $page: Int) {
   }
   } 
 `;
+const NEW_LINKS_SUBSCRIPTION = gql`
+subscription {
+  movieAdded {
+    id
+    name
+    description
+  }
+}
+`;
 const Movie = () => {
   const classes = useStyles();
-  const theme = useTheme();
-  const history = useHistory();
-  // const { loading, error, data, refetch } = useQuery(FEED_QUERY);
-
-  React.useEffect(() => executeSearch(), [])
-
   const [open, setOpen] = React.useState(false);
+  
+  const handleOpen = () => { setOpen(true); };
+  const handleClose = () => { setOpen(false); };
+  
+  const [formState, setFormState] = React.useState({ name: '', description: '', actorInfo: '' });
+  const [loadState, setLoadState] = React.useState({ limit: 3, page: 1, filter: '' });
+  
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  const [createMovie] = useMutation(createMovies, { variables: { name: formState.name, description: formState.description, actorInfo: formState.actorInfo }, onCompleted: (r) => { console.log(data); refetch(); } });
+  const [updateRating] = useMutation(updateMovies, { onCompleted: (r) => { } });
+  const updateRate = function (id, val) { updateRating({ variables: { movieId: Number(id), rating: Number(val) } }) };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const [formState, setFormState] = React.useState({
-    name: '',
-    description: '',
-    actorInfo: ''
-  });
-  const [loadState, setLoadState] = React.useState({
-    limit: 3,
-    page: 1,
-    filter: ''
-  });
-
-  const [createMovie] = useMutation(createMovies, {
-    variables: {
-      name: formState.name, description: formState.description, actorInfo: formState.actorInfo
-    },
-    onCompleted: (r) => {
-      console.log(data);
+  const { loading, error, data, refetch, subscribeToMore } = useQuery( FEED_QUERY, { variables : loadState } );
+  
+  React.useEffect(() => {
+  subscribeToMore({
+    document: NEW_LINKS_SUBSCRIPTION,
+    updateQuery: (prev, { subscriptionData }) => {
+      console.log(subscriptionData,'subscriptionData');
+      console.log(prev,'prev');
       refetch();
     }
   });
-  const [updateRating] = useMutation(updateMovies, {
-    onCompleted: (r) => {
-      // refetch();
-    }
-  });
-  const updateRate = function (id, val) {
-    updateRating({ variables: { movieId: Number(id), rating: Number(val) } })
-  }
-  const [executeSearch, { loading, error, data, refetch }] = useLazyQuery(
-    FEED_QUERY/* , { variables : {filter: searchFilter} } */
-  );
+  },[])
+  React.useEffect(() => { refetch(); }, [loadState])
   return (
     <main style={{ backgroundColor: "white", height: "100%" }} className={classes.content}>
       <div className={classes.toolbar} />
@@ -332,9 +321,6 @@ const Movie = () => {
             </div>
             <form onSubmit={(e) => {
               e.preventDefault();
-              executeSearch({
-                variables: loadState
-              })
             }}>
               <InputBase placeholder="Search…" classes={{ root: classes.inputRoot, input: classes.inputInput, }} inputProps={{ 'aria-label': 'search' }} onChange={(e) => setLoadState({...loadState, filter:e.target.value})} />
             </form>
@@ -386,11 +372,6 @@ const Movie = () => {
                   </Fade>
                 </Modal>
               </Grid>
-              {/* <Grid item>
-                  <Button variant="outlined" color="primary">
-                    Secondary action
-                  </Button>
-                </Grid> */}
             </Grid>
           </div>
         </Container>
@@ -421,8 +402,6 @@ const Movie = () => {
           )))}
         </Grid>
       </Container>
-      {/* <Container className={classes.cardGrid} maxWidth="md">
-        <Grid container spacing={4}> */}
       {loading ? (
 
         <Container className={classes.cardGrid} maxWidth="md">
@@ -448,7 +427,7 @@ const Movie = () => {
         </Container>
       ) :
         <Grid container justify="center">
-          <Pagination page={(data && data.movie )? data.movie.page : 1} count={(data && data.movie )? data.movie.totalPages : 0} onChange={(e, p) => { executeSearch({ variables: {...loadState, page: p } }); setLoadState({ ...formState, page: p })}}/>
+          <Pagination page={(data && data.movie )? data.movie.page : 1} count={(data && data.movie )? data.movie.totalPages : 0} onChange={(e, p) => { setLoadState({ ...formState, page: p })}}/>
         </Grid>}
     </main>
   );

@@ -1,13 +1,7 @@
 const graphql = require('graphql');
-const {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLFloat,
-  GraphQLID
-} = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLFloat, GraphQLID } = graphql;
 const UserType = require('./types/user_type');
 const MovieType = require('./types/movie_type');
-// const AuthService = require('../services/auth');
 const { db } = require('../models');
 const MovieRatingType = require('./types/movie_rating_type');
 
@@ -29,6 +23,11 @@ const mutation = new GraphQLObjectType({
           totalAvgRating: 0,
           totalRatingCount: 0
         })
+        .then(movie => {
+          pubSub.publish('movieAdded', movie)
+          return movie;
+        })
+        .catch(e => console.log(e))
       }
     },
     logout: {

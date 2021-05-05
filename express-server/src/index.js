@@ -1,3 +1,4 @@
+import { SubscriptionServer } from 'subscriptions-transport-ws';
 const expressGraphQL = require('express-graphql').graphqlHTTP;
 const schema = require('./schema/schema');
 import path from 'path';
@@ -10,6 +11,8 @@ import './errors';
 import kue from './kue';
 import './passport';
 import { jwtStrategy } from './middleware/strategy';
+import { PubSub } from 'graphql-subscriptions';
+import { execute, subscribe } from "graphql";
 
 // const cmd = require('node-cmd');
 
@@ -25,18 +28,6 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use('/api', restRouter);
-// app.post('/git', (req, res) => {
-//   // If event is "push"
-//   if (req.headers['x-github-event'] === 'push') {
-//     cmd.run('git pull'); // Refresh project
-//     console.log('> [GIT] Updated with origin/master');
-// 	  }
-//   return res.sendStatus(200); // Send back OK status
-// });
-// app.use((req, res, next) => {
-//   console.log(req.url);
-//   next(new RequestError('Invalid route', 404));
-// });
 
 app.use((error, req, res, next) => {
   if (!(error instanceof RequestError)) {
@@ -55,20 +46,22 @@ app.use((error, req, res, next) => {
 app.use(jwtStrategy);
 app.use('/graphql', expressGraphQL({
   schema,
-  graphiql: true/* ,
-  context: ({ req }) => {
-    return {
-      ...req,
-      userId:
-        req && req.headers.authorization
-          ? getUserId(req)
-          : null
-    };
-  } */
+  graphiql: true,
+  subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`
 }));
 global.json = (r)=>{return JSON.parse(JSON.stringify(r))}
-/* Start Listening service */
-app.listen(PORT, () => {
-  kue.init();
-  console.log(`Server is running at PORT http://localhost:${PORT}`);
+global.pubSub = new PubSub();
+
+const { createServer } = require("http");
+const webServer = createServer(app);
+webServer.listen(PORT, () => {
+  console.log(`GraphQL is now running on http://localhost:${PORT}`);
+  new SubscriptionServer({
+      execute,
+      subscribe,
+      schema
+  }, {
+      server: webServer,
+      path: '/subscriptions',
+  });
 });

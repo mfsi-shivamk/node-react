@@ -26,7 +26,6 @@ passport.use(new JwtStrategy({
   passReqToCallback: true
 }, async (req, payload, done) => {
   try {
-    console.log(payload, 'payload');
     let user = null;
     user = await db.User.findOne({
       where: { id: payload.sub }, attributes: ['id', 'phone', 'firstname', 'lastname', 'key']
