@@ -395,7 +395,7 @@ const Movie = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Rating id={`myid-${id}`} className={`rate.rating${rating}`} readOnly={false} key={`lalal=${id}`} name={`lalal${id}`} onChange={(e, val) => { alert(e.target.parentElement.id); updateRate(Number(e.target.parentElement.id.replace('myid-', '')), val) }} defaultValue={((rating && rating.rating) ? rating.rating : 1)} size="large" />
+                  <Rating id={`myid-${id}`} className={`rate.rating${rating}`} readOnly={false} key={`lalal=${id}`} name={`lalal${id}`} onChange={(e, val) => { updateRate(Number(e.target.parentElement.id.replace('myid-', '')), val) }} defaultValue={((rating && rating.rating) ? rating.rating : 1)} size="large" />
                 </CardActions>
               </Card>
             </Grid>
