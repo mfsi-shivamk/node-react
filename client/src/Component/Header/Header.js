@@ -208,7 +208,7 @@ export default function Header() {
         </div>
         <Divider />
         <List>
-          {['login', 'register','movie', 'logout'].map((text, index) => (
+          {['movie', 'logout'].map((text, index) => (
             <ListItem button key={text.toUpperCase()} onClick={()=>routeChange(text)}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text[0].toUpperCase()+text.slice(1)} />
