@@ -4,6 +4,8 @@ import { fade, makeStyles, useTheme } from '@material-ui/core/styles';
 import Header from '../Header/Header'; 
 import Home from './Home'; 
 import Movie from '../Movie/Movie'; 
+import Checkout from '../EyeTest/Checkout'; 
+import Eye from '../EyeTest/Eye'; 
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 const drawerWidth = 240;
 
@@ -117,8 +119,9 @@ export default function MiniDrawer(props) {
       <Switch>
       <Route exact path='/' component={Home} />
       <Route exact path='/movie' component={Movie} />
+      <Route exact path='/eye' component={Checkout} />
+      <Route exact path='/eye-test' component={Eye} />
       </Switch>
     </Router>
-    
   );
 }

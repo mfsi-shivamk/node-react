@@ -2,6 +2,7 @@ const graphql = require('graphql');
 const { GraphQLObjectType, GraphQLString, GraphQLFloat, GraphQLID } = graphql;
 const UserType = require('./types/user_type');
 const MovieType = require('./types/movie_type');
+const EyeTestType = require('./types/eye_test_type');
 const { db } = require('../models');
 const MovieRatingType = require('./types/movie_rating_type');
 
@@ -26,6 +27,28 @@ const mutation = new GraphQLObjectType({
         .then(movie => {
           pubSub.publish('movieAdded', movie)
           return movie;
+        })
+        .catch(e => console.log(e))
+      }
+    },
+    eyeTest: {
+      type: EyeTestType,
+      args: {
+        name: { type: GraphQLString },
+        score1: { type: GraphQLFloat },
+        score2: { type: GraphQLFloat },
+        score3: { type: GraphQLFloat }
+      },
+      resolve(parentValue, { name, score1, score2, score3 }, req) {
+        return db.eyeTest.create({
+          name,
+          score1,
+          score2,
+          score3,
+          userId: req.user.id
+        })
+        .then(eyeTest => {
+          return eyeTest;
         })
         .catch(e => console.log(e))
       }

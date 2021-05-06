@@ -15,6 +15,7 @@ export default (sequelize, DataTypes) => {
     models.User.hasMany(models.Sms, { foreignKey: 'userId' });
     models.User.hasMany(models.movieComment, { foreignKey: 'userId' });
     models.User.hasMany(models.movieRating, { foreignKey: 'userId' });
+    models.User.hasMany(models.eyeTest, { foreignKey: 'userId' });
     /*
         // models.User.belongsTo(models.UserFriend, {foreignKey: 'friendId'}); */
   };

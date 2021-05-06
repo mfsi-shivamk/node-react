@@ -208,8 +208,9 @@ export default function Header() {
         </div>
         <Divider />
         <List>
-          {['movie', 'logout'].map((text, index) => (
-            <ListItem button key={text.toUpperCase()} onClick={()=>routeChange(text)}>
+          {[{text:'movie', link:'movie'}, {text:'Eye Vision Screening', link:'eye'},{text:'Eye Screening Results', link:'eye-test'},{text:'logout', link:'logout'}]
+          .map(({text,link}, index) => (
+            <ListItem button key={text.toUpperCase()} onClick={()=>routeChange(link)}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text[0].toUpperCase()+text.slice(1)} />
             </ListItem>
