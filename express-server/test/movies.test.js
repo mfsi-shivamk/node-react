@@ -29,6 +29,8 @@ mutation {
 
 
 beforeAll(async () => {
+  jest.setTimeout(30000);
+
     return await db.sequelize.authenticate();
 });
 
@@ -39,13 +41,18 @@ describe('Tests that can be performed on the Movie create Mutation', () => {
       })).rejects.toThrowError("403");
   });
 
-  it('should create a todo for a authenticated user', async () => {
+  it('should create a movie for a authenticated user', async (done) => {
     const movie = await authenticatedClient.mutate({
       mutation: createMovie
     });
     movieId = movie.data.movie.id
     const exists = await db.movie.count({ where : { id : movieId } })
+    db.movie.destroy({ where : { id : movieId } })
     expect(exists).toBe(1);
   });
 
+});
+afterAll(async done => {
+  db.sequelize.close();
+  done();
 });
