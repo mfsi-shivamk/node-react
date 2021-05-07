@@ -37,7 +37,6 @@ export default {
     const { movieId } = req.params;
     const { rating, email } = req.body;
     const eme = email;
-    // console.log(email, '-email');
     db.User.findOrCreate({
       where: {
         email: String(eme)
@@ -47,7 +46,6 @@ export default {
         email: String(eme)
       }
     }).then((r) => {
-      // console.log(JSON.parse(JSON.stringify//(r)));
       return r;
     })
       .then(([userResp]) => {

@@ -8,7 +8,6 @@ import { db } from './models';
 var validator = require("email-validator");
 
 const TokenExtractor = function (req) {
-  console.log(JSON.stringify(req.url, req.headers['XSRF-token']), 'req.cookies');
   let token = null;
   if (req && req.cookies && req.cookies['XSRF-token']) {
     token = req.cookies['XSRF-token'];
@@ -41,7 +40,6 @@ passport.use(new JwtStrategy({
 
     return done(null, user);
   } catch (error) {
-    console.log(error, 'error');
     done(error, false);
   }
 }));
@@ -63,7 +61,6 @@ passport.use(new LocalStrategy({
         if (!User) {
           return done(null, false);
         }
-        console.log(password, User.key);
         const isMatch = await User.comparePassword(password);
 
         if (!isMatch) {
@@ -76,7 +73,6 @@ passport.use(new LocalStrategy({
         done('invalid', false);
       });
   } catch (error) {
-    console.log(error);
     done(error, false);
   }
 }));
@@ -133,7 +129,6 @@ passport.use('root-login', new LocalStrategy({
 
     done(null, user);
   } catch (error) {
-    console.log('error', error);
     done(error, false);
   }
 }));

@@ -23,7 +23,7 @@ const RootQueryType = new GraphQLObjectType({
           where : {
             id: req.user.id
           }
-        })
+        }).catch(e => new Error('SERVER_ERROR'))
       },
     },
     sms: {
@@ -34,7 +34,7 @@ const RootQueryType = new GraphQLObjectType({
             id: parentValue.id,
             userId: req.user.id
           }
-        })
+        }).catch(e => new Error('SERVER_ERROR'))
       },
     },
     
@@ -64,10 +64,7 @@ const RootQueryType = new GraphQLObjectType({
         })
         .then(([eyeTest,totalPages])=>{
           return {eyeTest,totalPages, page};
-        }).catch(e => {
-          console.log(e);
-          return e;
-        })
+        }).catch(e => new Error('SERVER_ERROR'))
       },
     },
     movie: {
@@ -96,10 +93,7 @@ const RootQueryType = new GraphQLObjectType({
         })
         .then(([movie,totalPages])=>{
           return {movie,totalPages, page};
-        }).catch(e => {
-          console.log(e);
-          return e;
-        })
+        }).catch(e => new Error('SERVER_ERROR'))
       },
     }
   })

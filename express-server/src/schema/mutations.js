@@ -28,7 +28,7 @@ const mutation = new GraphQLObjectType({
           pubSub.publish('movieAdded', movie)
           return movie;
         })
-        .catch(e => console.log(e))
+        .catch(e => new Error('SERVER_ERROR'))
       }
     },
     eyeTest: {
@@ -50,7 +50,7 @@ const mutation = new GraphQLObjectType({
         .then(eyeTest => {
           return eyeTest;
         })
-        .catch(e => console.log(e))
+        .catch(e => new Error('SERVER_ERROR'))
       }
     },
     logout: {
@@ -68,7 +68,7 @@ const mutation = new GraphQLObjectType({
         password: { type: GraphQLString }
       },
       resolve(parentValue, { email, password }, req) {
-        return null
+        throw new Error('INVALID_USER');
       }
     },
     addRatingToMovie: {
@@ -82,7 +82,7 @@ const mutation = new GraphQLObjectType({
         .then(function(movieRating) {
             if(movieRating) return movieRating.update({rating});
             return db.movieRating.create({rating, movieId, userId: req.user.id});
-        })
+        }).catch(e => new Error('SERVER_ERROR'))
       }
     },
   }

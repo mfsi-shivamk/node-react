@@ -13,7 +13,7 @@ import './passport';
 import { jwtStrategy } from './middleware/strategy';
 import { PubSub } from 'graphql-subscriptions';
 import { execute, subscribe } from "graphql";
-
+import CustomErrors from './CustomErrors.json';
 // const cmd = require('node-cmd');
 
 global.appRoot = path.resolve(__dirname);
@@ -46,7 +46,10 @@ app.use(jwtStrategy);
 app.use('/graphql', expressGraphQL({
   schema,
   graphiql: true,
-  subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`
+  subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`,
+  customFormatErrorFn: (error, res) => {
+    return CustomErrors[error.message];
+  }
 }));
 global.json = (r)=>{return JSON.parse(JSON.stringify(r))}
 global.pubSub = new PubSub();

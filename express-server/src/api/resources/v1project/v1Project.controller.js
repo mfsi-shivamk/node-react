@@ -56,7 +56,6 @@ export default {
 
   async project(req, res, next) {
     const { projectId } = req.params;
-    console.log(req.body);
     const data = { ...req.body };
     if (req.body.startDate) data.startDate = new Date(req.body.startDate);
     db.project.findOne({

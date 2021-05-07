@@ -21,7 +21,6 @@ export default (sequelize, DataTypes) => {
   };
   User.prototype.comparePassword = function (password) {
     const dbPass = this.getDataValue('key');
-    console.log(dbPass, password);
     return bcrypt.compareSync(password, dbPass);
   };
   return User;
