@@ -50,6 +50,8 @@
     ]
   },
   "devDependencies": {
-    "eslint-plugin-react": "^7.23.2"
+    "eslint-plugin-react": "^7.23.2",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.7.0"
   }
 }
