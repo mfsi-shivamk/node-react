@@ -1,39 +1,32 @@
 import Pagination from '@material-ui/lab/Pagination';
-import Paper from '@material-ui/core/Paper';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Rating from '@material-ui/lab/Rating';
 import React, { useEffect, useState } from "react";
-import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
-import MovieIcon from '@material-ui/icons/Movie';
-import Link from '@material-ui/core/Link';
-import { useHistory } from "react-router-dom";
 import { fade, makeStyles, useTheme } from '@material-ui/core/styles';
 import { useQuery, gql, useMutation, useLazyQuery } from '@apollo/client';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Avatar from '@material-ui/core/Avatar';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Box from '@material-ui/core/Box';
-import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-const drawerWidth = 240;
+import Snackbar from '../Notification/Snackbar';
 
+import MovieIcon from '@material-ui/icons/Movie';
+import Close from "@material-ui/icons/Close";
+import AddAlert from "@material-ui/icons/AddAlert";
+import SearchIcon from '@material-ui/icons/Search';
+
+const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
@@ -281,30 +274,63 @@ subscription {
 const Movie = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  
+
+
+  const [notify, setNotify] = React.useState(false);
+  const [danger, setDanger] = React.useState(false);
+  const [info, setInfo] = React.useState(false);
+
+  const showNotification = (type) => {
+    switch (type) {
+      case "s": {
+        setNotify(true);
+        setTimeout(function () {
+          setNotify(false);
+        }, 6000);
+      }
+      case "d": {
+        setDanger(true);
+        setTimeout(function () {
+          setDanger(false);
+        }, 6000);
+      }
+      case "i": {
+        setInfo(true);
+        setTimeout(function () {
+          setInfo(false);
+        }, 6000);
+      }
+
+    }
+
+  }
+
+
   const handleOpen = () => { setOpen(true); };
   const handleClose = () => { setOpen(false); };
-  
+
   const [formState, setFormState] = React.useState({ name: '', description: '', actorInfo: '' });
   const [loadState, setLoadState] = React.useState({ limit: 3, page: 1, filter: '' });
-  
 
-  const [createMovie] = useMutation(createMovies, { variables: { name: formState.name, description: formState.description, actorInfo: formState.actorInfo }, onCompleted: (r) => { console.log(data); refetch(); } });
+
+  const [createMovie] = useMutation(createMovies, {
+    variables: { name: formState.name, description: formState.description, actorInfo: formState.actorInfo },
+    onCompleted: (r) => { refetch(); showNotification('s'); handleClose(); }
+  });
   const [updateRating] = useMutation(updateMovies, { onCompleted: (r) => { } });
   const updateRate = function (id, val) { updateRating({ variables: { movieId: Number(id), rating: Number(val) } }) };
 
-  const { loading, error, data, refetch, subscribeToMore } = useQuery( FEED_QUERY, { variables : loadState } );
-  
+  const { loading, error, data, refetch, subscribeToMore } = useQuery(FEED_QUERY, { variables: loadState });
+  if (error) showNotification('d');
   React.useEffect(() => {
-  subscribeToMore({
-    document: NEW_LINKS_SUBSCRIPTION,
-    updateQuery: (prev, { subscriptionData }) => {
-      console.log(subscriptionData,'subscriptionData');
-      console.log(prev,'prev');
-      refetch();
-    }
-  });
-  },[])
+    subscribeToMore({
+      document: NEW_LINKS_SUBSCRIPTION,
+      updateQuery: (prev, { subscriptionData }) => {
+        showNotification('i');
+        refetch();
+      }
+    });
+  }, [])
   React.useEffect(() => { refetch(); }, [loadState])
   return (
     <main style={{ backgroundColor: "white", height: "100%" }} className={classes.content}>
@@ -322,7 +348,7 @@ const Movie = () => {
             <form onSubmit={(e) => {
               e.preventDefault();
             }}>
-              <InputBase placeholder="Search…" classes={{ root: classes.inputRoot, input: classes.inputInput, }} inputProps={{ 'aria-label': 'search' }} onChange={(e) => setLoadState({...loadState, filter:e.target.value})} />
+              <InputBase placeholder="Search…" classes={{ root: classes.inputRoot, input: classes.inputInput, }} inputProps={{ 'aria-label': 'search' }} onChange={(e) => setLoadState({ ...loadState, filter: e.target.value })} />
             </form>
           </div>
           {/* </Typography> */}
@@ -331,7 +357,7 @@ const Movie = () => {
               <Grid item xs={3}>
                 <Button variant="contained" color="primary" onClick={handleOpen}>
                   Add
-                  </Button> 
+                  </Button>
 
                 <Modal aria-labelledby="transition-modal-title" aria-describedby="transition-modal-description" className={classes.modal} open={open} onClose={handleClose} closeAfterTransition BackdropComponent={Backdrop} BackdropProps={{ timeout: 500, }} >
                   <Fade in={open}>
@@ -380,7 +406,7 @@ const Movie = () => {
         {/* End hero unit */}
         <Grid container spacing={4}>
           {data && (data.movie.movie.map(({ id, name, description, actorInfo, rating }) => (
-            <Grid item key={id} xs={12} sm={6} md={4}>
+            <Grid item key={name + id} xs={12} sm={6} md={4}>
               <Card className={classes.card}>
                 <CardMedia className={classes.cardMedia} image="https://source.unsplash.com/random" title="Image title" />
                 <CardContent className={classes.cardContent}>
@@ -395,7 +421,7 @@ const Movie = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Rating id={`myid-${id}`} className={`rate.rating${rating}`} readOnly={false} key={`lalal=${id}`} name={`lalal${id}`} onChange={(e, val) => { updateRate(Number(e.target.parentElement.id.replace('myid-', '')), val) }} defaultValue={((rating && rating.rating) ? rating.rating : 1)} size="large" />
+                  <Rating id={`myid-${id}`} className={`rate.rating${rating}`} readOnly={false} key={`lalal=${id}`} name={`lalal${id}`} onChange={(e, val) => { updateRate(Number(e.target.parentElement.id.replace('myid-', '')), val) }} defaultValue={((rating && rating.rating) ? rating.rating : 0)} size="large" />
                 </CardActions>
               </Card>
             </Grid>
@@ -405,8 +431,8 @@ const Movie = () => {
       {loading ? (
 
         <Container className={classes.cardGrid} maxWidth="md">
-          <Grid container spacing={4}>{Array.from(new Array(3)).map(r => (
-            <Grid item key={1} xs={12} sm={6} md={4}>
+          <Grid container spacing={4}>{Array.from(new Array(3)).map((r, i) => (
+            <Grid item key={'skeleton' + i} xs={12} sm={6} md={4}>
               <Card className={classes.card}>
                 <Skeleton variant="rect" width="100%" height={118} />
                 <CardContent className={classes.cardContent}>
@@ -427,8 +453,12 @@ const Movie = () => {
         </Container>
       ) :
         <Grid container justify="center">
-          <Pagination page={(data && data.movie )? data.movie.page : 1} count={(data && data.movie )? data.movie.totalPages : 0} onChange={(e, p) => { setLoadState({ ...formState, page: p })}}/>
+          <Pagination page={(data && data.movie) ? data.movie.page : 1} count={(data && data.movie) ? data.movie.totalPages : 0} onChange={(e, p) => { setLoadState({ ...formState, page: p }) }} />
         </Grid>}
+
+      <Snackbar place='tr' color='success' icon={AddAlert} message='Movie added successfully' open={notify} closeNotification={() => setNotify(false)} close />
+      <Snackbar place='tr' color='info' icon={AddAlert} message='Movie List updated' open={info} closeNotification={() => setInfo(false)} close />
+      <Snackbar place='tr' color='danger' icon={AddAlert} message='Some Error Occoured' open={danger} closeNotification={() => setDanger(false)} close />
     </main>
   );
 }
