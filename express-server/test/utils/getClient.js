@@ -2,7 +2,7 @@ import ApolloClient from 'apollo-boost';
 
 export const getClient = (token) => {
    return new ApolloClient({
-    uri: 'http://localhost:4000/graphql',
+    uri: process.env.apolloUrl,
     request: (operation) => {
       if(token) {
         operation.setContext({
