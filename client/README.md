@@ -11,7 +11,7 @@
 *   Search movies with movie name.
 
 ### How To Setup?
-## Enviroment variables
+## Environment variables
 Go to client directory. 
 Create a file named ".env" in the root directory and fill its contents as mentioned in .env.example.
 
