@@ -11,8 +11,6 @@ const TokenExtractor = function (req) {
   let token = null;
   if (req && req.cookies && req.cookies['XSRF-token']) {
     token = req.cookies['XSRF-token'];
-  } else if (req && req.headers && req.headers['xsrf-token'] && req.headers['xsrf-token'].length) {
-    token = req.headers['xsrf-token'].replaceAll('"', '');
   }
   return token;
 };
