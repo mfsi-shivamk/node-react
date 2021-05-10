@@ -1,7 +1,10 @@
+import React, { useRef } from 'react';
+import { useQuery, useMutation } from '@apollo/client';
+
 import Pagination from '@material-ui/lab/Pagination';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Rating from '@material-ui/lab/Rating';
-import React, { useEffect, useState } from "react";
+
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -11,22 +14,22 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
-import { fade, makeStyles, useTheme } from '@material-ui/core/styles';
-import { useQuery, gql, useMutation, useLazyQuery } from '@apollo/client';
+import { fade, makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import InputBase from '@material-ui/core/InputBase';
-import Snackbar from '../Notification/Snackbar';
 
 import MovieIcon from '@material-ui/icons/Movie';
-import Close from "@material-ui/icons/Close";
 import AddAlert from "@material-ui/icons/AddAlert";
 import SearchIcon from '@material-ui/icons/Search';
 
-const drawerWidth = 240;
+import Snackbar from '../Notification/Snackbar';
+import { queries } from '../../config/gqlQueries';
+import { constants } from '../../config/constant';
+
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
@@ -42,49 +45,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
   menuButton: {
     marginRight: 36,
   },
   hide: {
     display: 'none',
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9) + 1,
-    },
   },
   toolbar: {
     display: 'flex',
@@ -127,28 +92,11 @@ const useStyles = makeStyles((theme) => ({
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
       width: '20ch',
-    },
-  },
-  inputRoot: {
-    color: 'inherit',
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
     },
   },
   icon: {
@@ -194,88 +142,12 @@ const useStyles = makeStyles((theme) => ({
     'background-clip': 'padding-box',
     marginTop: "10px"
   },
-  modalpaper: { margin: "auto" },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  modalpaper: { margin: "auto" }
 }));
-const createMovies = gql`
-mutation MOVIE_MUTATION(
-$name: String!
-$description: String!,
-$actorInfo: String!
-){
-movie(name: $name, description:$description, actorInfo: $actorInfo) {
-  id
-  name
-  description
-  actorInfo
-}
-} `;
-const updateMovies = gql`
-mutation UPDATE_MOVIE_MUTATION(
-$movieId: ID!
-$rating: Float!
-){
-addRatingToMovie(rating: $rating, movieId:$movieId) {
-  id
-  movieId
-  rating
-}
-}`;
-const FEED_QUERY = gql`
-query MovieFetch($filter: String, $limit: Int, $page: Int) {
-  movie(filter: $filter, limit: $limit, page: $page) {
-      totalPages
-      page
-      movie{
-      id
-      name
-      actorInfo
-      description
-      rating {
-            id
-            rating
-          }
-      }
-  }
-  } 
-`;
-const NEW_LINKS_SUBSCRIPTION = gql`
-subscription {
-  movieAdded {
-    id
-    name
-    description
-  }
-}
-`;
 const Movie = () => {
   const classes = useStyles();
+
   const [open, setOpen] = React.useState(false);
-
-
   const [notify, setNotify] = React.useState(false);
   const [danger, setDanger] = React.useState(false);
   const [info, setInfo] = React.useState(false);
@@ -288,21 +160,21 @@ const Movie = () => {
           setNotify(false);
         }, 6000);
       }
+        break;
       case "d": {
         setDanger(true);
         setTimeout(function () {
           setDanger(false);
         }, 6000);
       }
+        break;
       case "i": {
         setInfo(true);
         setTimeout(function () {
           setInfo(false);
         }, 6000);
       }
-
     }
-
   }
 
 
@@ -313,20 +185,22 @@ const Movie = () => {
   const [loadState, setLoadState] = React.useState({ limit: 3, page: 1, filter: '' });
 
 
-  const [createMovie] = useMutation(createMovies, {
+  const [createMovie] = useMutation(queries.createMovies, {
     variables: { name: formState.name, description: formState.description, actorInfo: formState.actorInfo },
-    onCompleted: (r) => { refetch(); showNotification('s'); handleClose(); }
+    onCompleted: () => { refetch(); showNotification('s'); handleClose(); }
   });
-  const [updateRating] = useMutation(updateMovies, { onCompleted: (r) => { } });
+  const [updateRating] = useMutation(queries.updateMovies, { onCompleted: () => { } });
   const updateRate = function (id, val) { updateRating({ variables: { movieId: Number(id), rating: Number(val) } }) };
+  const didMount = useRef(false);
 
-  const { loading, error, data, refetch, subscribeToMore } = useQuery(FEED_QUERY, { variables: loadState });
+  const { loading, error, data, refetch, subscribeToMore } = useQuery(queries.fetchMovie, { variables: loadState });
   if (error) showNotification('d');
   React.useEffect(() => {
     subscribeToMore({
-      document: NEW_LINKS_SUBSCRIPTION,
-      updateQuery: (prev, { subscriptionData }) => {
-        showNotification('i');
+      document: queries.subscriptionMovie,
+      updateQuery: () => {
+        if (didMount.current) showNotification('i');
+        else didMount.current = true;
         refetch();
       }
     });
@@ -340,7 +214,6 @@ const Movie = () => {
           <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
             Marvel Movies
             </Typography>
-          {/* <Typography variant="h5" align="center" color="textSecondary" paragraph> */}
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -403,7 +276,6 @@ const Movie = () => {
         </Container>
       </div>
       <Container className={classes.cardGrid} maxWidth="md">
-        {/* End hero unit */}
         <Grid container spacing={4}>
           {data && (data.movie.movie.map(({ id, name, description, actorInfo, rating }) => (
             <Grid item key={name + id} xs={12} sm={6} md={4}>
@@ -455,10 +327,9 @@ const Movie = () => {
         <Grid container justify="center">
           <Pagination page={(data && data.movie) ? data.movie.page : 1} count={(data && data.movie) ? data.movie.totalPages : 0} onChange={(e, p) => { setLoadState({ ...formState, page: p }) }} />
         </Grid>}
-
-      <Snackbar place='tr' color='success' icon={AddAlert} message='Movie added successfully' open={notify} closeNotification={() => setNotify(false)} close />
-      <Snackbar place='tr' color='info' icon={AddAlert} message='Movie List updated' open={info} closeNotification={() => setInfo(false)} close />
-      <Snackbar place='tr' color='danger' icon={AddAlert} message='Some Error Occoured' open={danger} closeNotification={() => setDanger(false)} close />
+      <Snackbar place='tr' color='success' icon={AddAlert} message={constants.notification.movie.s} open={notify} closeNotification={() => setNotify(false)} close />
+      <Snackbar place='tr' color='info' icon={AddAlert} message={constants.notification.movie.i} open={info} closeNotification={() => setInfo(false)} close />
+      <Snackbar place='tr' color='danger' icon={AddAlert} message={constants.notification.movie.d} open={danger} closeNotification={() => setDanger(false)} close />
     </main>
   );
 }

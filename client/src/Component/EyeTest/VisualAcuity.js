@@ -1,16 +1,10 @@
-var converter = require('number-to-words');
-import React from 'react';
+import converter from 'number-to-words';
 import clsx from 'clsx';
-import Typography from '@material-ui/core/Typography';
+import React from 'react';
+
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import $ from 'jquery';
+import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import './eyeTest.css';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -31,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Test = { 1:{ key: 'ArrowDown'}, 2:{ key: 'ArrowRight' }, 3:{ key: 'ArrowLeft' }, 4:{ key: 'ArrowDown' }, 5:{ key: 'ArrowUp'}, 6:{ key: 'ArrowRight'} }
 export default function PaymentForm() {
-  const [test, setTest] = React.useState(Test);
+  const [test] = React.useState(Test);
   const [result, setResult] = React.useState(false);
   const classes = useStyles();
   const [right, setRight] = React.useState(false);
@@ -46,7 +40,7 @@ export default function PaymentForm() {
       
       setCorrect(Number(correct) + 1);
     }
-    if(count == Object.keys(test).length) { localStorage.setItem('3-score',correct);setResult(true);}
+    if(count == Object.keys(test).length) {setResult(true);}
     if(count >= Object.keys(test).length ||!test[count].key == 'ArrowUp' ||!test[count].key == 'ArrowDown' ||!test[count].key == 'ArrowLeft' ||!test[count].key == 'ArrowDown' ) return;
     if(test[count].key == 'ArrowUp') setUp(false);
     if(test[count].key == 'ArrowDown') setDown(false);
@@ -81,7 +75,6 @@ export default function PaymentForm() {
         <Grid item xs={12} className={clsx(!result && classes.hide, result && classes.show)}>
         Your result:  {correct} of {Object.keys(test).length}
         <br/>
-        Review Score.
         </Grid>
         <Grid item xs={12}>
           

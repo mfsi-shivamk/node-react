@@ -1,16 +1,11 @@
-var converter = require('number-to-words');
 import React from 'react';
+import converter from 'number-to-words';
 import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import $ from 'jquery';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import './eyeTest.css';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -31,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Test = { 1:{ key: 'ArrowDown'}, 2:{ key: 'ArrowRight' }, 3:{ key: 'ArrowLeft' }, 4:{ key: 'ArrowDown' }, 5:{ key: 'ArrowUp'}, 6:{ key: 'ArrowRight'} }
 export default function PaymentForm() {
-  const [test, setTest] = React.useState(Test);
+  const [test] = React.useState(Test);
   const [result, setResult] = React.useState(false);
   const classes = useStyles();
   const [right, setRight] = React.useState(false);
@@ -45,8 +40,12 @@ export default function PaymentForm() {
     if (!result && test[count] && test[count].key == e.code ) {
       setCorrect(Number(correct) + 1);
     }
-    if(count == Object.keys(test).length) { localStorage.setItem('2-score',correct);setResult(true); }
-    if(count >= Object.keys(test).length ||!test[count].key == 'ArrowUp' ||!test[count].key == 'ArrowDown' ||!test[count].key == 'ArrowLeft' ||!test[count].key == 'ArrowDown' ) return;
+    if(count == Object.keys(test).length) {setResult(true); }
+    if(count >= Object.keys(test).length 
+    ||!test[count].key == 'ArrowUp' 
+    ||!test[count].key == 'ArrowDown' 
+    ||!test[count].key == 'ArrowLeft' 
+    ||!test[count].key == 'ArrowDown' ) return;
     if(test[count].key == 'ArrowUp') setUp(false);
     if(test[count].key == 'ArrowDown') setDown(false);
     if(test[count].key == 'ArrowLeft') setLeft(false);
@@ -65,7 +64,7 @@ export default function PaymentForm() {
         Visual acuity test
       </Typography>
       <div className="cont">
-      <div id="test2" style={{ "fontWeight": contrast }} className={(left ? 'left': (right? 'right': (down? 'down':"up")))}> 
+      <div id="test2" style={{ "fontWeight": contrast }} className={(left ? 'left': (right? 'right': (down? 'down': "up" )))}> 
       M
       </div>
 

@@ -1,19 +1,16 @@
 import React from 'react';
-import Home from './Home'; 
-import Movie from '../Movie/Movie'; 
-import Checkout from '../EyeTest/Checkout'; 
-import Eye from '../EyeTest/Eye'; 
+import Home from './Home';
+import Movie from '../Movie/Movie';
+import EyeTest from '../EyeTest/EyeTest';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-export default function MiniDrawer(props) {
-
+export default function MiniDrawer() {
   return (
     <Router >
       <Switch>
-      <Route exact path='/' component={Home} />
-      <Route exact path='/movie' component={Movie} />
-      <Route exact path='/eye' component={Checkout} />
-      <Route exact path='/eye-test' component={Eye} />
+        <Route exact path='/' component={Home} />
+        <Route exact path='/movie' component={Movie} />
+        <Route exact path='/eye' component={EyeTest} />
       </Switch>
     </Router>
   );
