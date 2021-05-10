@@ -16,9 +16,9 @@ const JWTSign = function (user, date) {
 export const jwtStrategy = (req, res, next) => {
   // eslint-disable-next-line consistent-return
   passport.authenticate('jwt', { session: false }, (err, user) => {
-    if (err) { return res.status(403).json({ errors: ['Invalid user recieved'] }); }
+    if (err) { res.clearCookie("XSRF-token"); return res.status(403).json({ errors: ['Invalid user recieved'] }); }
     // eslint-disable-next-line no-undef
-    if (!user) { return json ? res.status(403).json({ errors: ['Invalid user recieved'] }) : res.redirect('/logout'); }
+    if (!user) {res.clearCookie("XSRF-token"); return json ? res.status(403).json({ errors: ['Invalid user recieved'] }) : res.redirect('/logout'); }
     // Update Token
     const date = new Date();
     const token = JWTSign(user, date);
