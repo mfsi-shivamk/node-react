@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function MiniDrawer(props) {
+export default function MiniDrawer() {
   const classes = useStyles();
 
   return (

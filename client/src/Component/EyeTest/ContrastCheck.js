@@ -32,7 +32,7 @@ export default function PaymentForm() {
   const [right, setRight] = React.useState(false);
   const [left, setLeft] = React.useState(false);
   const [down, setDown] = React.useState(true);
-  const [up, setUp] = React.useState(false);
+  const [, setUp] = React.useState(false);
   const [count, setCount] = React.useState(1);
   const [correct, setCorrect] = React.useState(0);
   const [contrast, setContrast] = React.useState(1000);
