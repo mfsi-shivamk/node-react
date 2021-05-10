@@ -2,8 +2,8 @@
 
 ## Introduction
 
-Authentication is via REST-ful routing which uses jwt token for authenticity.
-Fetching Movies list, adding movie & rating movie is via GraphQL routing.
+* Authentication is via REST-ful routing which uses **JWT** token for authenticity.
+* Fetching Movies list, adding movie & rating movie is via GraphQL routing.
 
 ## Requirements
 
@@ -22,12 +22,12 @@ Fetching Movies list, adding movie & rating movie is via GraphQL routing.
 *   Search with movie name.
 
 ## About Authentication
-Passport local handles user authencation for the unprotected routes, which are the user registration and login routes.
-Once the user has logged in a JWT token is created and sent to the client and storeed in local storage along with user data, Passport JWT takes over at this point and handles all further user authentication for protected routes.
-Each request from the client to the server must include the JWT as one of its authorization headers before the route can be accessed. If the JWT is missing, corrupted or expired (it has a 1 hour expiration date from the time it's created on login), the authentication will fail and the route cannot be accessed.
+* Passport local handles user authencation for the unprotected routes, which are the user registration and login routes.
+* Once the user has logged in a JWT token is created and sent to the client and storeed in local storage along with user data, Passport JWT takes over at this point and handles all further user authentication for protected routes.
+* Each request from the client to the server must include the JWT as one of its authorization headers before the route can be accessed. If the JWT is missing, corrupted or expired (it has a 1 hour expiration date from the time it's created on login), the authentication will fail and the route cannot be accessed.
 
-### How to setup ?
-## Enviroment variables (Backend Server)
+### How To Setup ?
+## Enviroment Variables
 * Go to express-server directory. 
 * In the root this repository you will find a file named `.env.example`.
 * Create a new file by copying and pasting the file and then renaming it to just `.env`
@@ -49,7 +49,7 @@ DB_PASSWORD=
 
 ```
 
-## Database migration
+## Database Migration
 
 1. Run `npm install` in express-server directory.
 2. Run `npm run sequelize db:migrate`( Refer to [sequelize-cli doc](https://github.com/sequelize/cli#usage) )
