@@ -19,6 +19,7 @@ Create a file named ".env" in the root directory and fill its contents as mentio
 REACT_APP_NODE_URL=localhost
 REACT_APP_NODE_PORT=4000
 REACT_APP_NODE_SECURE=http
+REACT_APP_NODE_SOCKET=ws
 ```
 ## Running Client
 
