@@ -1,14 +1,15 @@
+/* eslint-disable no-undef */
 export const constants = {
     Gql : {
-        baseUrl: 'http://localhost:4000/graphql',
-        baseWebSocketUrl: 'ws://localhost:4000/subscriptions',
+        baseUrl: `${process.env.REACT_APP_NODE_SECURE}://${process.env.REACT_APP_NODE_URL}:${process.env.REACT_APP_NODE_PORT}/graphql`,
+        baseWebSocketUrl: `ws://${process.env.REACT_APP_NODE_URL}:${process.env.REACT_APP_NODE_PORT}/subscriptions`,
         split: {
             kind: 'OperationDefinition',
             operation: 'subscription'
         }
     },
     api : {
-        baseUrl: 'http://localhost:4000/',
+        baseUrl: `${process.env.REACT_APP_NODE_SECURE}://${process.env.REACT_APP_NODE_URL}:${process.env.REACT_APP_NODE_PORT}/`,
         register : {
             method: 'post',
             url: '/api/v1/auth/register',
