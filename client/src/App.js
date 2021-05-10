@@ -1,11 +1,11 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Login from './component/Auth/Login';
-import Logout from './component/Auth/Logout';
-import Register from './component/Auth/Register';
-import Dashboard from './component/Dashboard/Dashboard';
-import ErrorPage from './component/Error/404';
-import requireAuth from './component/Auth/requireAuth';
+import Login from './components/Auth/Login';
+import Logout from './components/Auth/Logout';
+import Register from './components/Auth/Register';
+import Dashboard from './components/Dashboard/Dashboard';
+import ErrorPage from './components/Error/404';
+import requireAuthHoc from './components/Auth/requireAuthHoc';
 
 export default function App() {
   return (
@@ -14,7 +14,7 @@ export default function App() {
         <Route exact path='/register' component={Register} />
         <Route exact path='/logout' component={Logout} />
         <Route exact path='/login' component={Login} />
-        <Route component={requireAuth(Dashboard)} />
+        <Route component={requireAuthHoc(Dashboard)} />
         <Route component={ErrorPage} />
       </Switch>
     </Router>
