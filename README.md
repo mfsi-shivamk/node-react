@@ -8,7 +8,7 @@ This allows a user to register in the database, log in, add movie & rate it.
 
 ### Tech Stack Used
 ``
-GraphQL, ReactJS, NodeJS & MySQL.
+GraphQL, ReactJS, NodeJS & Sequelize.
 ``
 ### Download
 
