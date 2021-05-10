@@ -28,7 +28,7 @@ const CLIENT_URL = config.app.client;
 
 const app = appManager.setup(config);
 const corsOptions = {
-  origin: CLIENT_URL,
+  origin: 'http://localhost:3000',
   credentials: true
 };
 app.use(cors(corsOptions));

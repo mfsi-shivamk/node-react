@@ -15,6 +15,7 @@ const JWTSign = function (user, date) {
   }, config.app.secret);
 };
 export default {
+  
   async register(req, res, next) {
     const {
       phone, firstName, lastName, email, password
@@ -34,6 +35,7 @@ export default {
         next(e);
       });
   },
+
   async login(req, res) {
     const date = new Date();
     const token = JWTSign(req.user, date);
@@ -44,10 +46,15 @@ export default {
     });
     return res.status(200).json({ success: true, token });
   },
+
   async token(req, res) {
     return res.status(200).json({
       email: req.user.email,
-      userName: `${req.user.firstname} ${req.user.lastname ? req.user.lastname : ''}`/* ,
-       type: req.user.type === 'root' ? 'Admin' : 'Employee'  */});
+      userName: `${req.user.firstname} ${req.user.lastname ? req.user.lastname : ''}`});
   },
+
+  async logout(req, res) {
+    res.clearCookie("XSRF-token");
+    res.status(200).json({ success: true })
+  }
 };
