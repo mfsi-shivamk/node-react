@@ -18,6 +18,7 @@ export default (WrappedComponent) => {
         const classes = useStyles();
         const cookies = new Cookies();
         const [user, setUser] = React.useState('');
+        const [loggedIn, setLoggedIn] = React.useState(false);
         useEffect(() => {
             const headers = {};
             headers[constants.cookie.key] = cookies.get(constants.cookie.key)
@@ -27,6 +28,7 @@ export default (WrappedComponent) => {
                 headers
             })
                 .then(r => {
+                    setLoggedIn(true);
                     setUser({ user: r.data });
                 })
                 .catch(err => {
@@ -34,8 +36,8 @@ export default (WrappedComponent) => {
                 });
         }, []);
         return (
-            <div className={classes.root}> <Header />
-                <WrappedComponent {...props} {...user} />
+            <div className={classes.root}>
+                {loggedIn ? <React.Fragment><Header /><WrappedComponent {...props} {...user} /> </React.Fragment> : ''}
             </div>
         )
     }
