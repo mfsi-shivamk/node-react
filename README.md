@@ -2,9 +2,9 @@
 
 ### Introduction
 
-Movie App using React.js, Node.js & GraphQL with real time movie listing updates.
+Movie App using React.js, Node.js & GraphQL with real-time movie listing updates.
 
-This allows a user to register in the database, log in, add movie & rate it.
+This allows a user to register in the database, login, add a movie & rate it.
 
 ### Tech Stack Used
 ``
@@ -17,9 +17,9 @@ $ git clone https://github.com/mfsi-shivamk/node-react.git
 ```
 
 # Frontend Client
-## Setting up Enviroment variables 
-Go to client directory. 
-Create a file named ".env" in the root directory and fill its contents as mentioned in .env.example.
+## Setting up Environment variables 
+Go to the client directory. 
+Create a file named ".env" in the root directory and fill in its contents as mentioned in .env.example.
 
 ```
 REACT_APP_NODE_URL=localhost
@@ -34,9 +34,9 @@ REACT_APP_NODE_SECURE=http
 
 # Backend Server
 
-## Setting Up Enviroment variables
+## Setting Up Environment variables
 Go to express-server directory. 
-Create a file named ".env" in the root directory and fill its contents as mentioned in .env.example.
+Create a file named ".env" in the root directory and fill in its contents as mentioned in .env.example.
 
 ```
 APP_NAME="test"
