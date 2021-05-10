@@ -1,7 +1,3 @@
-<img width="1440" alt="Screenshot 2021-05-10 at 6 31 06 PM" src="https://user-images.githubusercontent.com/30428839/117663096-e55dd800-b1bd-11eb-84f5-8c4b8e944ee7.png">
-<img width="1440" alt="Screenshot 2021-05-10 at 6 31 20 PM" src="https://user-images.githubusercontent.com/30428839/117663122-ebec4f80-b1bd-11eb-94bf-be809289f69e.png">
-<img width="1440" alt="Screenshot 2021-05-10 at 6 31 59 PM" src="https://user-images.githubusercontent.com/30428839/117663193-032b3d00-b1be-11eb-99cb-b1d6dae7ce09.png">
-<img width="1440" alt="Screenshot 2021-05-10 at 6 32 19 PM" src="https://user-images.githubusercontent.com/30428839/117663241-10482c00-b1be-11eb-9715-50cd753488cd.png">
 ### Frontend Client
 ## Features
 
