@@ -27,7 +27,7 @@
 * Each request from the client to the server must include the JWT as one of its authorization headers before the route can be accessed. If the JWT is missing, corrupted or expired (it has a 1 hour expiration date from the time it's created on login), the authentication will fail and the route cannot be accessed.
 
 ### How To Setup ?
-## Enviroment Variables
+## Environment Variables
 * Go to express-server directory. 
 * In the root this repository you will find a file named `.env.example`.
 * Create a new file by copying and pasting the file and then renaming it to just `.env`
