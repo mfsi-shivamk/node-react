@@ -1,4 +1,3 @@
-'use strict';
 module.exports = (sequelize, DataTypes) => {
   const movie = sequelize.define('movie', {
     name: DataTypes.STRING,
@@ -7,10 +6,11 @@ module.exports = (sequelize, DataTypes) => {
     totalAvgRating: DataTypes.INTEGER,
     totalRatingCount: DataTypes.INTEGER
   }, {});
-  movie.associate = function(models) {
+  // eslint-disable-next-line func-names
+  movie.associate = function (models) {
     // associations can be defined here
-    models.movie.hasMany(models.movieComment, {foreignKey: 'userId'});
-    models.movie.hasMany(models.movieRating, {foreignKey: 'movieId'});
+    models.movie.hasMany(models.movieComment, { foreignKey: 'userId' });
+    models.movie.hasMany(models.movieRating, { foreignKey: 'movieId' });
   };
   return movie;
 };

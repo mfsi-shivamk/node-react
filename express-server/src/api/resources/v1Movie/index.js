@@ -1,1 +1,0 @@
-export { v1MovieRouter } from './v1Movie.router';

@@ -1,13 +1,13 @@
 {
-  "name": "Codemymobile",
+  "name": "movie",
   "version": "0.1.0",
-  "description": "Codemymobile API",
+  "description": "Express-movie API",
   "main": "index.js",
   "scripts": {
     "test": "jest ",
     "start": "nodemon src/index.js --exec babel-node --presets @babel/env",
     "build": "babel src -d dist --source-maps inline --copy-files",
-    "serve": "node  --max-old-space-size=8192  dist/index.js",
+    "serve": "node dist/index.js",
     "sequelize": "sequelize"
   },
   "jest": {

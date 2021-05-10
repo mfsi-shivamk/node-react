@@ -1,13 +1,10 @@
-
-
 import JWT from 'jsonwebtoken';
-import crypto from 'crypto';
 import bcrypt from 'bcrypt-nodejs';
-import { queue } from '../../../kue';
 import { db } from '../../../models';
 import config from '../../../config';
 
 
+// eslint-disable-next-line func-names
 const JWTSign = function (user, date) {
   return JWT.sign({
     iss: config.app.name,
@@ -19,14 +16,16 @@ const JWTSign = function (user, date) {
 };
 export default {
   async register(req, res, next) {
-    const { phone, firstName, lastName, email, password } = req.body;
+    const {
+      phone, firstName, lastName, email, password
+    } = req.body;
     db.User.findOne({
       where: { phone }
     })
-    .then((user) => {
-      if (user) throw new RequestError('User already exists.', 400);
-      const key = bcrypt.hashSync(password);
-      return db.User.create({
+      .then((user) => {
+        if (user) throw new RequestError('User already exists.', 400);
+        const key = bcrypt.hashSync(password);
+        return db.User.create({
           firstName, key, lastName, phone, email
         });
       })
@@ -35,7 +34,7 @@ export default {
         next(e);
       });
   },
-  async login(req, res, next) {
+  async login(req, res) {
     const date = new Date();
     const token = JWTSign(req.user, date);
     res.cookie('XSRF-token', token, {

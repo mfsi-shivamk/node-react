@@ -1,20 +1,24 @@
-import { SubscriptionServer } from 'subscriptions-transport-ws';
-const expressGraphQL = require('express-graphql').graphqlHTTP;
-const schema = require('./schema/schema');
-import path from 'path';
-import 'dotenv/config';
+/* eslint-disable no-param-reassign */
 import cors from 'cors';
+import 'dotenv/config';
+import path from 'path';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { graphqlHTTP } from 'express-graphql';
+import { PubSub } from 'graphql-subscriptions';
+import { execute, subscribe } from 'graphql';
+
+import schema from './schema/schema';
 import { restRouter } from './api';
+import { jwtStrategy } from './middleware/strategy';
+
+import CustomErrors from './CustomErrors.json';
 import config from './config';
 import appManager from './app';
 import './errors';
-import kue from './kue';
 import './passport';
-import { jwtStrategy } from './middleware/strategy';
-import { PubSub } from 'graphql-subscriptions';
-import { execute, subscribe } from "graphql";
-import CustomErrors from './CustomErrors.json';
-// const cmd = require('node-cmd');
+
+const expressGraphQL = graphqlHTTP;
+
 
 global.appRoot = path.resolve(__dirname);
 
@@ -39,7 +43,6 @@ app.use((error, req, res, next) => {
   if (json) {
     return res.json({ errors: error.errorList });
   }
-	  console.log(error);
   return res.json({ errors: [error.message] });
 });
 app.use(jwtStrategy);
@@ -47,23 +50,26 @@ app.use('/graphql', expressGraphQL({
   schema,
   graphiql: true,
   subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`,
-  customFormatErrorFn: (error, res) => {
-    return CustomErrors[error.message];
-  }
+  customFormatErrorFn: error => CustomErrors[error.message]
 }));
-global.json = (r)=>{return JSON.parse(JSON.stringify(r))}
+global.json = r => JSON.parse(JSON.stringify(r));
+
 global.pubSub = new PubSub();
 
-const { createServer } = require("http");
+const { createServer } = require('http');
+
+
 const webServer = createServer(app);
+
 webServer.listen(PORT, () => {
   console.log(`GraphQL is now running on http://localhost:${PORT}`);
+  // eslint-disable-next-line no-new
   new SubscriptionServer({
-      execute,
-      subscribe,
-      schema
+    execute,
+    subscribe,
+    schema
   }, {
-      server: webServer,
-      path: '/subscriptions',
+    server: webServer,
+    path: '/subscriptions',
   });
 });

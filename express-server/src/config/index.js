@@ -1,13 +1,15 @@
+/* eslint-disable global-require */
 import fs from 'fs';
 import path from 'path';
 
-var normalizedPath = __dirname;
-var data = {}
+const normalizedPath = __dirname;
+const data = {};
 
-fs.readdirSync(normalizedPath).forEach(function(file) {
-    if(file != 'index.js'){
-        data[file.split('.')[0]] = require(path.join(__dirname, file))['default'];
-    }
+fs.readdirSync(normalizedPath).forEach((file) => {
+  if (file !== 'index.js') {
+    // eslint-disable-next-line import/no-dynamic-require
+    data[file.split('.')[0]] = require(path.join(__dirname, file)).default;
+  }
 });
 
 export default data;

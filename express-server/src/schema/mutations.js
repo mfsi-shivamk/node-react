@@ -1,5 +1,9 @@
+/* eslint-disable arrow-parens */
 const graphql = require('graphql');
-const { GraphQLObjectType, GraphQLString, GraphQLFloat, GraphQLID } = graphql;
+
+const {
+  GraphQLObjectType, GraphQLString, GraphQLFloat, GraphQLID
+} = graphql;
 const UserType = require('./types/user_type');
 const MovieType = require('./types/movie_type');
 const EyeTestType = require('./types/eye_test_type');
@@ -14,9 +18,9 @@ const mutation = new GraphQLObjectType({
       args: {
         name: { type: GraphQLString },
         description: { type: GraphQLString },
-        actorInfo: {type: GraphQLString}
+        actorInfo: { type: GraphQLString }
       },
-      resolve(parentValue, { name, description, actorInfo }, req) {
+      resolve(_parentValue, { name, description, actorInfo }) {
         return db.movie.create({
           name,
           description,
@@ -24,11 +28,12 @@ const mutation = new GraphQLObjectType({
           totalAvgRating: 0,
           totalRatingCount: 0
         })
-        .then(movie => {
-          pubSub.publish('movieAdded', movie)
-          return movie;
-        })
-        .catch(e => new Error('SERVER_ERROR'))
+          .then(movie => {
+            // eslint-disable-next-line no-undef
+            pubSub.publish('movieAdded', movie);
+            return movie;
+          })
+          .catch(() => new Error('SERVER_ERROR'));
       }
     },
     eyeTest: {
@@ -39,7 +44,9 @@ const mutation = new GraphQLObjectType({
         score2: { type: GraphQLFloat },
         score3: { type: GraphQLFloat }
       },
-      resolve(parentValue, { name, score1, score2, score3 }, req) {
+      resolve(_parentValue, {
+        name, score1, score2, score3
+      }, req) {
         return db.eyeTest.create({
           name,
           score1,
@@ -47,15 +54,13 @@ const mutation = new GraphQLObjectType({
           score3,
           userId: req.user.id
         })
-        .then(eyeTest => {
-          return eyeTest;
-        })
-        .catch(e => new Error('SERVER_ERROR'))
+          .then(eyeTest => eyeTest)
+          .catch(() => new Error('SERVER_ERROR'));
       }
     },
     logout: {
       type: UserType,
-      resolve(parentValue, args, req) {
+      resolve(_parentValue, _args, req) {
         const { user } = req;
         req.logout();
         return user;
@@ -67,7 +72,7 @@ const mutation = new GraphQLObjectType({
         email: { type: GraphQLString },
         password: { type: GraphQLString }
       },
-      resolve(parentValue, { email, password }, req) {
+      resolve() {
         throw new Error('INVALID_USER');
       }
     },
@@ -77,12 +82,12 @@ const mutation = new GraphQLObjectType({
         movieId: { type: GraphQLID },
         rating: { type: GraphQLFloat }
       },
-      resolve(parentValue, { movieId, rating }, req) {
-        return db.movieRating.findOne({ where: {movieId, userId: req.user.id} })
-        .then(function(movieRating) {
-            if(movieRating) return movieRating.update({rating});
-            return db.movieRating.create({rating, movieId, userId: req.user.id});
-        }).catch(e => new Error('SERVER_ERROR'))
+      resolve(_parentValue, { movieId, rating }, req) {
+        return db.movieRating.findOne({ where: { movieId, userId: req.user.id } })
+          .then((movieRating) => {
+            if (movieRating) return movieRating.update({ rating });
+            return db.movieRating.create({ rating, movieId, userId: req.user.id });
+          }).catch(() => new Error('SERVER_ERROR'));
       }
     },
   }

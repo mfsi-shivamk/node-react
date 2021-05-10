@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 const graphql = require('graphql');
 const { db } = require('../../models');
 
@@ -5,24 +6,23 @@ const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLID,
-  GraphQLFloat,
-  GraphQLList
+  GraphQLFloat
 } = graphql;
 
 const EyeTest = new GraphQLObjectType({
   name: 'EyeTestType',
-  fields: ()=>({
+  fields: () => ({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
-    score1: {type: GraphQLFloat},
-    score2: {type: GraphQLFloat},
-    score3: {type: GraphQLFloat},
+    score1: { type: GraphQLFloat },
+    score2: { type: GraphQLFloat },
+    score3: { type: GraphQLFloat },
     user: {
       type: require('./user_type'),
       resolve(parentValue, args, req) {
         return db.User.findOne({
-          where: {id: req.user.id}
-        })
+          where: { id: req.user.id }
+        });
       }
     },
     createdAt: { type: GraphQLString },
