@@ -1,14 +1,18 @@
-# MovieApp Introduction
+## MovieApp 
+
+### Introduction
 
 Movie App using React.js, Node.js & GraphQL with real time movie listing updates.
 
-## Download
+This allows a user to register in the database, log in, add movie & rate it.
+
+### Download
 
 ```
 $ git clone https://github.com/mfsi-shivamk/node-react.git
 ```
-
-### Enviroment variables (Frontend Client)
+### Setting Frontend Client
+## Enviroment variables (Frontend Client)
 Go to client directory. 
 Create a file named ".env" in the root directory and fill its contents as mentioned in .env.example.
 
@@ -17,15 +21,15 @@ REACT_APP_NODE_URL=localhost
 REACT_APP_NODE_PORT=4000
 REACT_APP_NODE_SECURE=http
 ```
-# Running Frontend Client 
+# Running (Frontend Client)
 
 1. Go to client `cd client`.
 2. Run `npm install`.
 3. Run `npm run start`.
 
+### Backend Server
 
-
-### Enviroment variables (Backend Server)
+## Enviroment variables (Backend Server)
 Go to express-server directory. 
 Create a file named ".env" in the root directory and fill its contents as mentioned in .env.example.
 
@@ -45,13 +49,13 @@ DB_PASSWORD=
 
 ```
 
-## Database migration
-
+## Database migration (Backend Server)
+Make sure you have installed all npm dependencies and in express-server directory.
 1. Run `npm install` in express-server directory.
 2. Run `npm run sequelize db:migrate`( Refer to [sequelize-cli doc](https://github.com/sequelize/cli#usage) )
 3. Run `npm run sequelize db:seed:all` ( Refer to [sequelize-cli doc](https://github.com/sequelize/cli#usage) )
 
-# Running Backend Server 
+# Running (Backend Server)
 
 1. Go to express-server `cd express-server`.
 2. Run `npm install`.
