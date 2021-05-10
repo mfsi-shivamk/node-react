@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({ inputPadding: { padding: '8px' }, pap
 export default function ComplexGrid() {
   const classes = useStyles();
 
+  const [errors, setErrors] =  React.useState({phone: false, password: false})
   const [notify, setNotify] = React.useState(false);
   const [danger, setDanger] = React.useState(false);
   const [info, setInfo] = React.useState(false);
@@ -87,13 +88,22 @@ export default function ComplexGrid() {
         }, 1000)
       })
       .catch(error => {
-        if (error.response && error.response.data && error.response.data.errors && error.response.data.errors.length) {
+        if (error && error.response && error.response.data && error.response.data.isJoi) {
+          const temp = errors;
+          temp[error.response.data.details[0].context.key] = true;
+          setErrors({...temp})
+          const [{ message: msg }] = error.response.data.details
+          setCustomMsg(msg);
+        }
+        else if (error && error.response && error.response.data && error.response.data.errors) {
           const [msg] = error.response.data.errors;
           setCustomMsg(msg);
         }
         else showNotification('d');
       })
   }
+
+  
   return (
     <div >
       <Grid container spacing={3} direction="column" alignItems="center" justify="center" style={{ minHeight: '100vh' }}>
@@ -104,10 +114,10 @@ export default function ComplexGrid() {
             <CardContent>
               <form noValidate autoComplete="off">
                 <FormControl fullWidth={true}>
-                  <Input onChange={(e) => { setFormData({ ...formData, phone: e.target.value }) }} placeholder="Phone or Email" className={classes.inputPadding} id="phone" endAdornment={<InputAdornment position="start"> <Email /> </InputAdornment>} />
+                  <Input  error={errors.phone}  onChange={(e) => { setFormData({ ...formData, phone: e.target.value }) }} placeholder="Phone or Email" className={classes.inputPadding} id="phone" endAdornment={<InputAdornment position="start"> <Email /> </InputAdornment>} />
                 </FormControl>
                 <FormControl fullWidth={true}>
-                  <Input onChange={(e) => { setFormData({ ...formData, password: e.target.value }) }} placeholder="Password" className={classes.inputPadding} id="password" endAdornment={<InputAdornment position="start"> <Lock /> </InputAdornment>} />
+                  <Input  error={errors.password}  onChange={(e) => { setFormData({ ...formData, password: e.target.value }) }} placeholder="Password" className={classes.inputPadding} id="password" endAdornment={<InputAdornment position="start"> <Lock /> </InputAdornment>} />
                 </FormControl>
                 <Box textAlign='center'>
                   <Button className={classes.buttonPadding} onClick={() => { login(); }} color="secondary">Login</Button>
