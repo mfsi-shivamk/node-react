@@ -278,18 +278,18 @@ const Movie = () => {
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid container spacing={4}>
           {data && (data.movie.movie.map(({ id, name, description, actorInfo, rating }) => (
-            <Grid item key={name + id} xs={12} sm={6} md={4}>
+            <Grid item key={`movie-` + id} xs={12} sm={6} md={4}>
               <Card className={classes.card}>
                 <CardMedia className={classes.cardMedia} image="https://source.unsplash.com/random" title="Image title" />
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
-                    {name}
+                    {name ? name : '--'}
                   </Typography>
                   <Typography>
-                    Description : {description}
+                    Description : {description ? description : '--'}
                   </Typography>
                   <Typography>
-                    {JSON.stringify(rating)} Actor Info: {actorInfo}
+                    Actor Info: {actorInfo ? actorInfo : '--'}
                   </Typography>
                 </CardContent>
                 <CardActions>
