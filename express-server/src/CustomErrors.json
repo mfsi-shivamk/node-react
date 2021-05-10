@@ -1,0 +1,8 @@
+{
+    "INVALID_USER": {
+        "message" : "Invalid user recevied!"
+    },
+    "SERVER_ERROR": {
+        "message": "Internal server error! "
+    }
+}

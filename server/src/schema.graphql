@@ -1,0 +1,39 @@
+scalar Date
+type Query {
+  info: String!
+  sms: [Sms!]!
+  user: [User!]!
+}
+
+type Mutation {
+  post(otp: String!, body: String!): Sms
+  signup(email: String!, key: String!, firstName: String!): AuthPayload
+  login(email: String!, key: String!): AuthPayload
+}
+
+type Sms {
+  id: ID!
+  userId: User
+  body: String!
+  key: String
+  otp: String!
+  sentAt: String!
+  createdAt: Date!
+  updatedAt: Date!
+  deletedAt: Date!
+}
+
+type User {
+  id: ID
+  firstName: String
+  lastName: String
+  email: String
+  key: String
+  phone: String
+  smsSent: [Sms!]!
+}
+
+type AuthPayload {
+  token: String
+  user: User
+}
