@@ -1,4 +1,10 @@
 ### Frontend Client
+## Features
+
+*   User login, sign up.
+*   Make movie and rate them.
+*   Pagination ready.
+*   Search with movie name.
 
 ### How to setup?
 ## Enviroment variables (Frontend Client)

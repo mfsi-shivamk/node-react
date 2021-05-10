@@ -19,7 +19,7 @@ Fetching Movies list, adding movie & rating movie is via GraphQL routing.
 *   NPM script for keeping good source code formatting using prettier and ESLint.
 *   Use of ESLint for good coding practices.
 *   JWT Tokens, make requests with a token after login
-
+*   Search with movie name.
 
 ## About Authentication
 Passport local handles user authencation for the unprotected routes, which are the user registration and login routes.
