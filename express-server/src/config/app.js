@@ -39,4 +39,8 @@ export default {
      * Stores if server is Secure or not for Secure flag in cookies
      */
   secure: (process.env.APP_SECURE === 'true') || false,
+
+  socket: process.env.SOCKET_URL || 'ws://localhost',
+
+  client: process.env.SOCKET_URL || 'http://localhost:3000',
 };

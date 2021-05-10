@@ -23,10 +23,12 @@ const expressGraphQL = graphqlHTTP;
 global.appRoot = path.resolve(__dirname);
 
 const PORT = config.app.port;
+const SOCKET = config.app.scoket;
+const CLIENT_URL = config.app.client;
 
 const app = appManager.setup(config);
 const corsOptions = {
-  origin: process.env.api || 'http://localhost:3000',
+  origin: CLIENT_URL,
   credentials: true
 };
 app.use(cors(corsOptions));
@@ -49,7 +51,7 @@ app.use(jwtStrategy);
 app.use('/graphql', expressGraphQL({
   schema,
   graphiql: true,
-  subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`,
+  subscriptionsEndpoint: `${SOCKET}:${PORT}/subscriptions`,
   customFormatErrorFn: error => CustomErrors[error.message]
 }));
 global.json = r => JSON.parse(JSON.stringify(r));
@@ -62,7 +64,7 @@ const { createServer } = require('http');
 const webServer = createServer(app);
 
 webServer.listen(PORT, () => {
-  console.log(`GraphQL is now running on http://localhost:${PORT}`);
+  console.log(`GraphQL is now running on PORT:${PORT}`);
   // eslint-disable-next-line no-new
   new SubscriptionServer({
     execute,
