@@ -16,7 +16,7 @@ export default {
           npm run build
         `,
         function(err, data, stderr){
-            console.log('Git Webhook')
+            console.log('Git Webhook!')
         }
       )
     }
