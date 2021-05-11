@@ -7,7 +7,6 @@ import { graphqlHTTP } from 'express-graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { execute, subscribe } from 'graphql';
 import * as Sentry from "@sentry/node";
-import * as Tracing from "@sentry/tracing";
 
 import schema from './schema/schema';
 import { restRouter } from './api';
@@ -21,16 +20,7 @@ import './passport';
 
 const expressGraphQL = graphqlHTTP;
 
-Sentry.init({
-  dsn: config.app.sentryUrl,
-  integrations: [
-    new Sentry.Integrations.Http({ tracing: true }),
-    new Tracing.Integrations.Express({ app }),
-  ],
-  tracesSampleRate: 1.0,
-});
-app.use(Sentry.Handlers.requestHandler());
-app.use(Sentry.Handlers.tracingHandler());
+
 
 global.appRoot = path.resolve(__dirname);
 

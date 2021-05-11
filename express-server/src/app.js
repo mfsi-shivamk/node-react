@@ -5,6 +5,8 @@ import cookieParser from 'cookie-parser';
 import expressSanitizer from 'express-sanitizer';
 import session from 'express-session';
 import helmet from 'helmet';
+import * as Sentry from "@sentry/node";
+import * as Tracing from "@sentry/tracing";
 
 export default {
   setup: (config) => {
@@ -32,6 +34,18 @@ export default {
       res.header('Pragma', 'no-cache');
       next();
     });
+
+    Sentry.init({
+      dsn: config.app.sentryUrl,
+      integrations: [
+        new Sentry.Integrations.Http({ tracing: true }),
+        new Tracing.Integrations.Express({ app }),
+      ],
+      tracesSampleRate: 1.0,
+    });
+
+    app.use(Sentry.Handlers.requestHandler());
+    app.use(Sentry.Handlers.tracingHandler());
 
     return app;
   }
