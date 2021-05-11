@@ -17,7 +17,7 @@ export default (WrappedComponent) => {
     function requireAuth(props) {
         const classes = useStyles();
         const cookies = new Cookies();
-        const [user, setUser] = React.useState('');
+        const [user, setUser] = React.useState({});
         const [loggedIn, setLoggedIn] = React.useState(false);
         useEffect(() => {
             const headers = {};
@@ -27,17 +27,17 @@ export default (WrappedComponent) => {
                 url: constants.api.token.url,
                 headers
             })
-                .then(r => {
-                    setLoggedIn(true);
-                    setUser({ user: r.data });
-                })
-                .catch(err => {
-                    if (err.response && err.response.status == 403) window.location.href = constants.pages.login.url;
-                });
+            .then(r => {
+                setLoggedIn(true);
+                setUser(r.data);
+            })
+            .catch(err => {
+                if (err.response && err.response.status == 403) window.location.href = constants.pages.login.url;
+            });
         }, []);
         return (
             <div className={classes.root}>
-                {loggedIn ? <React.Fragment><Header /><WrappedComponent {...props} {...user} /> </React.Fragment> : ''}
+                {loggedIn ? <React.Fragment><Header  {...props} user={user} /><WrappedComponent {...props} user={user} /> </React.Fragment> : ''}
             </div>
         )
     }

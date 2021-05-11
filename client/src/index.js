@@ -10,13 +10,13 @@ import App from './App';
 import { constants } from './config/constant';
 
 const httpLink = createHttpLink({
-  uri: constants.Gql.baseUrl,
+  uri: constants.gqlApi.baseUrl,
   credentials: 'include',
   includeExtensions: true
 });
 
 const wsLink = new WebSocketLink({
-  uri: constants.Gql.baseWebSocketUrl,
+  uri: constants.gqlApi.baseWebSocketUrl,
   options: { reconnect: true },
 });
 
@@ -31,8 +31,8 @@ const splitLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
     return (
-      definition.kind === constants.Gql.split.kind &&
-      definition.operation === constants.Gql.split.subscription
+      definition.kind === constants.gqlApi.split.kind &&
+      definition.operation === constants.gqlApi.split.subscription
     );
   },
   wsLink,

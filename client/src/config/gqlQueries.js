@@ -52,11 +52,24 @@ export const queries = {
           }
         }
         `,
-    eyeTest: gql`
-        mutation EYE_MUTATION( $score2: Float! $score3: Float! ){
-          eyeTest(score2: $score2, score3: $score3) {
+      updateUser : gql`
+      mutation UPDATE_USER_MUTATION(
+        $firstName: String!
+        $lastName: String!
+        $email: String!
+        $phone: String!
+        ) {
+        updateUser(firstName: $firstName, lastName:$lastName, email:$email, phone:$phone) {
           id
           }
-        }`
-
+      }`,
+      updateUserCredentials : gql`
+      mutation UPDATE_USER_CREDENTIALS_MUTATION(
+        $currentPassword: String!
+        $newPassword: String!
+        ) {
+        updateUserCredentials(currentPassword: $currentPassword, newPassword:$newPassword) {
+          id
+          }
+      }`,
 }

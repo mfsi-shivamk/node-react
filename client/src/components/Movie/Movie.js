@@ -218,9 +218,7 @@ const Movie = () => {
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
-            <form onSubmit={(e) => {
-              e.preventDefault();
-            }}>
+            <form onSubmit={(e) => { e.preventDefault(); }}>
               <InputBase placeholder="Search…" classes={{ root: classes.inputRoot, input: classes.inputInput, }} inputProps={{ 'aria-label': 'search' }} onChange={(e) => setLoadState({ ...loadState, filter: e.target.value })} />
             </form>
           </div>

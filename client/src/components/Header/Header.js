@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import clsx from 'clsx';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
@@ -124,7 +125,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Header() {
+export default function Header(prop) {
   const classes = useStyles();
   const history = useHistory();
   const [open, setOpen] = React.useState(true);
@@ -163,7 +164,7 @@ export default function Header() {
             })}
           >
             <Typography variant="h6" noWrap>
-            {(localStorage.user && localStorage.user.length)  ? localStorage.user[0].toUpperCase():"A"}
+            {(prop.user && prop.user.userName)  ? prop.user.userName:"-"}
           </Typography>
           </IconButton>
             <MenuIcon onClick={open? handleDrawerClose : handleDrawerOpen}/>
@@ -217,4 +218,8 @@ export default function Header() {
       </Drawer>
     </div>
   );
+}
+
+Header.propTypes = {
+  user: PropTypes.objectOf(PropTypes.any).isRequired
 }

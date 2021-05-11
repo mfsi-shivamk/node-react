@@ -4,5 +4,11 @@
     },
     "SERVER_ERROR": {
         "message": "Internal server error! "
+    },
+    "USER_EXISTS": {
+        "message": "User already exists!"
+    },
+    "INVALID_CREDENTIALS": {
+        "message" : "Invalid user credentials!"
     }
 }

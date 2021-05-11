@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 export const constants = {
-    Gql: {
+    gqlApi: {
         baseUrl: `${process.env.REACT_APP_NODE_SECURE}://${process.env.REACT_APP_NODE_URL}:${process.env.REACT_APP_NODE_PORT}/graphql`,
         baseWebSocketUrl: `${process.env.REACT_APP_NODE_SOCKET}://${process.env.REACT_APP_NODE_URL}:${process.env.REACT_APP_NODE_PORT}/subscriptions`,
         split: {
@@ -28,7 +28,12 @@ export const constants = {
         }
     },
     pages: {
-        header: [{ text: 'Home', link: '' }, { text: 'movie', link: 'movie' }, { text: 'logout', link: 'logout' }],
+        header: [
+            { text: 'Home', link: '' }, 
+            { text: 'movie', link: 'movie' },
+            { text: 'setting', link: 'setting' },
+            { text: 'logout', link: 'logout' }
+        ],
         login: {
             url: '/login'
         },
@@ -41,6 +46,16 @@ export const constants = {
         key: 'XSRF-token'
     },
     notification: {
+        color: {
+            s: 'success',
+            d: "danger",
+            i: "info"
+        },
+        common: {
+            s: 'Successfully created.',
+            d: "Some error occoured.",
+            i: "Successfully updated."
+        },
         login: {
             s: 'Logged in successfully.',
             i: 'Login credentials updated.',

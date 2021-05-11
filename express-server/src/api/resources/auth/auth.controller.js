@@ -50,7 +50,10 @@ export default {
   async token(req, res) {
     return res.status(200).json({
       email: req.user.email,
-      userName: `${req.user.firstname} ${req.user.lastname ? req.user.lastname : ''}`});
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      phone: req.user.phone,
+      userName: `${req.user.firstName} ${req.user.lastName ? req.user.lastName : ''}`});
   },
 
   async logout(req, res) {
