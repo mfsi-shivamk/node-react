@@ -9,11 +9,11 @@ export default {
           git pull
           npm install
           npm run build
-          forever restartall
           cd ..
           cd client
           npm install
           npm run build
+          forever restartall
         `,
         function(err, data, stderr){
             console.log('Git Webhook!')
