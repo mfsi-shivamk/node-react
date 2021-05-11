@@ -42,5 +42,8 @@ export default {
 
   socket: process.env.SOCKET_URL || 'ws://localhost',
 
-  client: process.env.SOCKET_URL || 'http://localhost:3000',
+  client: process.env.CLIENT_URL || 'http://localhost:3000',
+
+  sentryUrl: process.env.SENTRY_URL
+
 };

@@ -6,6 +6,8 @@ import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { graphqlHTTP } from 'express-graphql';
 import { PubSub } from 'graphql-subscriptions';
 import { execute, subscribe } from 'graphql';
+import * as Sentry from "@sentry/node";
+import * as Tracing from "@sentry/tracing";
 
 import schema from './schema/schema';
 import { restRouter } from './api';
@@ -19,6 +21,16 @@ import './passport';
 
 const expressGraphQL = graphqlHTTP;
 
+Sentry.init({
+  dsn: config.app.sentryUrl,
+  integrations: [
+    new Sentry.Integrations.Http({ tracing: true }),
+    new Tracing.Integrations.Express({ app }),
+  ],
+  tracesSampleRate: 1.0,
+});
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.tracingHandler());
 
 global.appRoot = path.resolve(__dirname);
 
@@ -27,12 +39,16 @@ const SOCKET = config.app.scoket;
 const CLIENT_URL = config.app.client;
 
 const app = appManager.setup(config);
+
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: CLIENT_URL,
   credentials: true
 };
+
 app.use(cors(corsOptions));
 app.use('/api', restRouter);
+
+app.use(Sentry.Handlers.errorHandler());
 
 app.use((error, req, res, next) => {
   if (!(error instanceof RequestError)) {
