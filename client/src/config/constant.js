@@ -57,5 +57,7 @@ export const constants = {
             d: 'Some Error Occoured'
         },
     },
-
+    sentry: {
+        dns: process.env.REACT_APP_SENTRY_URL
+    }
 }
