@@ -1,6 +1,8 @@
 import Cookies from 'universal-cookie';
-import React, { useRef } from 'react';
+import React from 'react';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -13,12 +15,10 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Link from '@material-ui/core/Link';
 
-import AddAlert from "@material-ui/icons/AddAlert";
 import Email from '@material-ui/icons/Email';
 import Lock from '@material-ui/icons/Lock';
 
 import axios from '../../axios';
-import Snackbar from '../Notification/Snackbar';
 import { constants } from '../../config/constant';
 
 const cookies = new Cookies();
@@ -28,49 +28,6 @@ export default function ComplexGrid() {
   const classes = useStyles();
 
   const [errors, setErrors] =  React.useState({phone: false, password: false})
-  const [notify, setNotify] = React.useState(false);
-  const [danger, setDanger] = React.useState(false);
-  const [info, setInfo] = React.useState(false);
-  const [customDanger, setCustomDanger] = React.useState(false);
-  const [customMsg, setCustomMsg] = React.useState('');
-  const didMount = useRef(false);
-
-  const showNotification = (type) => {
-    switch (type) {
-      case "s": {
-        setNotify(true);
-        setTimeout(function () {
-          setNotify(false);
-        }, 6000);
-      }
-      break;
-      case "d": {
-        setDanger(true);
-        setTimeout(function () {
-          setDanger(false);
-        }, 6000);
-      }
-      break;
-      case "i": {
-        setInfo(true);
-        setTimeout(function () {
-          setInfo(false);
-        }, 6000);
-      }
-      break;
-      case "c": {
-        setCustomDanger(true);
-        setTimeout(function () {
-          setCustomDanger(false);
-        }, 6000);
-      }
-    }
-  }
-
-  React.useEffect(() => {
-    if (didMount.current) showNotification('c');
-    else didMount.current = true;
-  }, [customMsg]);
 
   const [formData, setFormData] = React.useState({ phone: '', password: '' });
 
@@ -81,7 +38,7 @@ export default function ComplexGrid() {
       data: formData
     })
       .then(r => {
-        showNotification('s');
+        toast.success(constants.notification.login.s);
         cookies.set(constants.cookie.key, r.data.token, { path: '/' });
         setTimeout(() => {
           window.location = "/";
@@ -89,17 +46,17 @@ export default function ComplexGrid() {
       })
       .catch(error => {
         if (error && error.response && error.response.data && error.response.data.isJoi) {
+          const [{ message: msg }] = error.response.data.details;
+          toast.error(msg);
           const temp = errors;
           temp[error.response.data.details[0].context.key] = true;
           setErrors({...temp})
-          const [{ message: msg }] = error.response.data.details
-          setCustomMsg(msg);
         }
         else if (error && error.response && error.response.data && error.response.data.errors) {
           const [msg] = error.response.data.errors;
-          setCustomMsg(msg);
+          toast.error(msg);
         }
-        else showNotification('d');
+        else toast.error(constants.notification.login.d);
       })
   }
 
@@ -132,10 +89,7 @@ export default function ComplexGrid() {
           </Card>
         </Grid >
       </Grid>
-      <Snackbar place='tr' color='success' icon={AddAlert} message={constants.notification.login.s} open={notify} closeNotification={() => setNotify(false)} close />
-      <Snackbar place='tr' color='info' icon={AddAlert} message={constants.notification.login.i} open={info} closeNotification={() => setInfo(false)} close />
-      <Snackbar place='tr' color='danger' icon={AddAlert} message={constants.notification.login.d} open={danger} closeNotification={() => setDanger(false)} close />
-      <Snackbar place='tr' color='danger' icon={AddAlert} message={customMsg} open={customDanger} closeNotification={() => setCustomDanger(false)} close />
+      <ToastContainer />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 
+import { ToastContainer, toast } from 'react-toastify';
 import Pagination from '@material-ui/lab/Pagination';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Rating from '@material-ui/lab/Rating';
@@ -24,10 +25,8 @@ import TextField from '@material-ui/core/TextField';
 import InputBase from '@material-ui/core/InputBase';
 
 import MovieIcon from '@material-ui/icons/Movie';
-import AddAlert from "@material-ui/icons/AddAlert";
 import SearchIcon from '@material-ui/icons/Search';
 
-import Snackbar from '../Notification/Snackbar';
 import { queries } from '../../config/gqlQueries';
 import { constants } from '../../config/constant';
 import { loadStripe } from '@stripe/stripe-js';
@@ -159,34 +158,6 @@ const Movie = () => {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
-  const [notify, setNotify] = React.useState(false);
-  const [danger, setDanger] = React.useState(false);
-  const [info, setInfo] = React.useState(false);
-
-  const showNotification = (type) => {
-    switch (type) {
-      case "s": {
-        setNotify(true);
-        setTimeout(function () {
-          setNotify(false);
-        }, 6000);
-      }
-        break;
-      case "d": {
-        setDanger(true);
-        setTimeout(function () {
-          setDanger(false);
-        }, 6000);
-      }
-        break;
-      case "i": {
-        setInfo(true);
-        setTimeout(function () {
-          setInfo(false);
-        }, 6000);
-      }
-    }
-  }
 
 
   const handleOpen = () => { setOpen(true); };
@@ -198,7 +169,7 @@ const Movie = () => {
 
   const [createMovie] = useMutation(queries.createMovies, {
     variables: { name: formState.name, description: formState.description, actorInfo: formState.actorInfo, currency: formState.currency, price: formState.price },
-    onCompleted: () => { refetch(); showNotification('s'); handleClose(); }
+    onCompleted: () => { refetch(); toast.success(constants.notification.movie.s); handleClose(); }
   });
   const [updateRating] = useMutation(queries.updateMovies, { onCompleted: () => { } });
   const updateRate = function (id, val) { updateRating({ variables: { movieId: Number(id), rating: Number(val) } }) };
@@ -206,12 +177,12 @@ const Movie = () => {
   const didMount2 = useRef(false);
 
   const { loading, error, data, refetch, subscribeToMore } = useQuery(queries.fetchMovie, { variables: loadState });
-  if (error) showNotification('d');
+  if (error) toast.error(constants.notification.movie.d);
   React.useEffect(() => {
     subscribeToMore({
       document: queries.subscriptionMovie,
       updateQuery: () => {
-        if (didMount.current) showNotification('i');
+        if (didMount.current) toast.info(constants.notification.movie.i);
         else didMount.current = true;
         refetch();
       }
@@ -236,7 +207,7 @@ const Movie = () => {
         sessionId: session.checkout.id,
       });
       if (result.error) {
-        showNotification('d');
+        toast.error(constants.notification.movie.d);
       }
     }
   });
@@ -374,9 +345,7 @@ const Movie = () => {
         <Grid container justify="center">
           <Pagination page={(data && data.movie) ? data.movie.page : 1} count={(data && data.movie) ? data.movie.totalPages : 0} onChange={(e, p) => { setLoadState({ ...formState, page: p }) }} />
         </Grid>}
-      <Snackbar place='tr' color='success' icon={AddAlert} message={constants.notification.movie.s} open={notify} closeNotification={() => setNotify(false)} close />
-      <Snackbar place='tr' color='info' icon={AddAlert} message={constants.notification.movie.i} open={info} closeNotification={() => setInfo(false)} close />
-      <Snackbar place='tr' color='danger' icon={AddAlert} message={constants.notification.movie.d} open={danger} closeNotification={() => setDanger(false)} close />
+      <ToastContainer />
     </main>
   );
 }

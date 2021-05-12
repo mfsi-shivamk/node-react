@@ -1,6 +1,8 @@
 import Link from '@material-ui/core/Link';
-import React, { useRef } from 'react';
+import React from 'react';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
@@ -13,57 +15,30 @@ import FormControl from "@material-ui/core/FormControl";
 import Box from '@material-ui/core/Box';
 
 
-import AddAlert from "@material-ui/icons/AddAlert";
 import Phone from '@material-ui/icons/Phone';
 import Email from '@material-ui/icons/Email';
 import Lock from '@material-ui/icons/Lock';
 import PersonIcon from '@material-ui/icons/Person';
 
-import Snackbar from '../Notification/Snackbar';
 import axios from '../../axios';
 import { constants } from '../../config/constant';
 
-const useStyles = makeStyles((theme) => ({ inputPadding: { padding: '8px' }, paperContainer: {}, cardHeader: { textAlign: 'center' }, buttonPadding: { marginBottom: '1px', marginTop: '25px' }, root: { flexGrow: 1, justifyContent: 'center' }, cardHidden: { opacity: "0", transform: "translate3d(0, -60px, 0)" }, paper: { padding: theme.spacing(2), margin: 'auto', maxWidth: 500, }, image: { width: 128, height: 128, }, img: { margin: 'auto', display: 'block', maxWidth: '100%', maxHeight: '100%', }, }));
+const useStyles = makeStyles((theme) => ({ 
+  inputPadding: { padding: '8px' },
+  cardHeader: { textAlign: 'center' },
+  buttonPadding: { marginBottom: '1px', marginTop: '25px' },
+  root: { flexGrow: 1, justifyContent: 'center' },
+  cardHidden: { opacity: "0", transform: "translate3d(0, -60px, 0)" },
+  paper: { padding: theme.spacing(2), margin: 'auto', maxWidth: 500, },
+  image: { width: 128, height: 128, },
+  img: { margin: 'auto', display: 'block', maxWidth: '100%', maxHeight: '100%', }
+ }));
 
 export default function ComplexGrid() {
   const classes = useStyles();
 
-  const [notify, setNotify] = React.useState(false);
-  const [danger, setDanger] = React.useState(false);
-  const [customDanger, setCustomDanger] = React.useState(false);
-  const [customMsg, setCustomMsg] = React.useState('');
-  const didMount = useRef(false);
-  const [errors, setErrors] =  React.useState({firstName: false, lastName: false, email: false, password: false, phone: false })
-
-  React.useEffect(() => {
-    if (didMount.current) showNotification('c');
-    else didMount.current = true;
-  }, [customMsg])
-
-  const showNotification = (type) => {
-    switch (type) {
-      case "s": {
-        setNotify(true);
-        setTimeout(function () {
-          setNotify(false);
-        }, 6000);
-      }
-      break;
-      case "d": {
-        setDanger(true);
-        setTimeout(function () {
-          setDanger(false);
-        }, 6000);
-      }
-      break;
-      case "c": {
-        setCustomDanger(true);
-        setTimeout(function () {
-          setCustomDanger(false);
-        }, 6000);
-      }
-    }
-  }
+  const [errors, setErrors] =  React.useState({firstName: false, lastName: false, email: false, password: false, phone: false });
+  
   const [formData, setFormData] = React.useState({ firstName: '', lastName: '', phone: '', email: '', password: '' });
 
   const register = function () {
@@ -74,7 +49,7 @@ export default function ComplexGrid() {
       data: formData
     })
       .then(() => {
-        showNotification('s');
+        toast.success(constants.notification.register.s);
         setTimeout(() => {
           window.location = constants.pages.login.url;
         }, 1000)
@@ -85,13 +60,13 @@ export default function ComplexGrid() {
           temp[error.response.data.details[0].context.key] = true;
           setErrors({...temp})
           const [{ message: msg }] = error.response.data.details
-          setCustomMsg(msg);
+          toast.error(msg);
         }
         else if (error && error.response && error.response.data && error.response.data.errors) {
           const [msg] = error.response.data.errors;
-          setCustomMsg(msg);
+          toast.error(msg);
         }
-        else showNotification('d');
+        else toast.error(constants.notification.register.d);
       })
   }
   return (
@@ -129,9 +104,7 @@ export default function ComplexGrid() {
           </form>
         </Grid >
       </Grid>
-      <Snackbar place='tr' color='success' icon={AddAlert} message={constants.notification.register.s} open={notify} closeNotification={() => setNotify(false)} close />
-      <Snackbar place='tr' color='danger' icon={AddAlert} message={constants.notification.register.d} open={danger} closeNotification={() => setDanger(false)} close />
-      <Snackbar place='tr' color='danger' icon={AddAlert} message={customMsg} open={customDanger} closeNotification={() => setCustomDanger(false)} close />
+      <ToastContainer />
     </div>
   );
 }
