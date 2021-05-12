@@ -7,8 +7,10 @@ const {
 } = graphql;
 const UserType = require('./types/user_type');
 const MovieType = require('./types/movie_type');
+const SessionType = require('./types/session_type');
 const { db } = require('../models');
 const MovieRatingType = require('./types/movie_rating_type');
+import { createProduct, createSession } from '../api/common/stripe.module';
 
 const mutation = new GraphQLObjectType({
   name: 'Mutation',
@@ -18,22 +20,26 @@ const mutation = new GraphQLObjectType({
       args: {
         name: { type: GraphQLString },
         description: { type: GraphQLString },
+        price: { type: GraphQLString },
+        currency: { type: GraphQLString },
         actorInfo: { type: GraphQLString }
       },
-      resolve(_parentValue, { name, description, actorInfo }) {
+      resolve(_parentValue, { name, description, actorInfo, price, currency }) {
         return db.movie.create({
           name,
           description,
           actorInfo,
+          price,
+          currency,
           totalAvgRating: 0,
           totalRatingCount: 0
         })
-          .then(movie => {
-            // eslint-disable-next-line no-undef
-            pubSub.publish('movieAdded', movie);
-            return movie;
-          })
-          .catch(() => new Error('SERVER_ERROR'));
+        .then(movie => {
+          createProduct(movie);
+          pubSub.publish('movieAdded', movie);
+          return movie;
+        })
+        .catch(() => new Error('SERVER_ERROR'));
       }
     },
     logout: {
@@ -96,6 +102,21 @@ const mutation = new GraphQLObjectType({
         if (!match) throw new Error('INVALID_CREDENTIALS');
         await db.User.update({ key: bcrypt.hashSync(args.newPassword)}, { where: { id: req.user.id } });
         return db.User.findOne({ attributes: ['id', 'firstName', 'lastName', 'phone', 'email'], where: { id: req.user.id } });
+      }
+    },
+
+    checkout: {
+      type: SessionType,
+      args: {
+        movieId: { type: graphql.GraphQLInt}
+      },
+      resolve:  async(_parentValue, args, req) => {
+       const movie = await db.movie.findOne({
+          where: { id: args.movieId }
+        });
+        if(!movie) throw new Error('INVALID_CREDENTIALS');
+        const id = await createSession(movie, req.user);
+        return { id };
       }
     }
   }

@@ -6,8 +6,10 @@ export const queries = {
         $name: String!
         $description: String!,
         $actorInfo: String!
+        $price: String!
+        $currency: String!
         )   {
-            movie(name: $name, description:$description, actorInfo: $actorInfo) {
+            movie(name: $name, description:$description, actorInfo: $actorInfo, price: $price, currency: $currency ) {
               id
               name
               description
@@ -34,6 +36,8 @@ export const queries = {
               id
               name
               actorInfo
+              price
+              currency
               description
               rating {
                     id
@@ -72,4 +76,13 @@ export const queries = {
           id
           }
       }`,
+      createCheckoutSession : gql`
+      mutation CREATE_CHECKOUT_SESSION(
+        $movieId: Int!
+      ) {
+        checkout(movieId: $movieId){
+          id
+        }
+      }
+      `
 }

@@ -26,6 +26,18 @@ module.exports = {
     totalCommentCount: {
       type: Sequelize.INTEGER
     },
+    productId: {
+      type: Sequelize.INTEGER
+    },
+    priceId: {
+      type: Sequelize.INTEGER
+    },
+    currency: {
+      type: Sequelize.STRING
+    },
+    price: {
+      type: Sequelize.STRING
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE

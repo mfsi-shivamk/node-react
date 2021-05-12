@@ -5,6 +5,7 @@ export default (sequelize, DataTypes) => {
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     email: DataTypes.STRING,
+    stripeId: DataTypes.STRING,
     key: DataTypes.STRING,
     phone: DataTypes.STRING
   }, {

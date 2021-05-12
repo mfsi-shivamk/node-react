@@ -2,9 +2,8 @@ import JWT from 'jsonwebtoken';
 import bcrypt from 'bcrypt-nodejs';
 import { db } from '../../../models';
 import config from '../../../config';
+import { createCustomer } from '../../common/stripe.module';
 
-
-// eslint-disable-next-line func-names
 const JWTSign = function (user, date) {
   return JWT.sign({
     iss: config.app.name,
@@ -30,7 +29,10 @@ export default {
           firstName, key, lastName, phone, email
         });
       })
-      .then(r => res.status(200).json({ success: true, data: r }))
+      .then(r => {
+        createCustomer(r);
+        return res.status(200).json({ success: true, data: r })
+      })
       .catch((e) => {
         next(e);
       });

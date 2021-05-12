@@ -6,6 +6,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import Rating from '@material-ui/lab/Rating';
 
 import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -29,6 +30,10 @@ import SearchIcon from '@material-ui/icons/Search';
 import Snackbar from '../Notification/Snackbar';
 import { queries } from '../../config/gqlQueries';
 import { constants } from '../../config/constant';
+import { loadStripe } from '@stripe/stripe-js';
+// Make sure to call `loadStripe` outside of a component’s render to avoid
+// recreating the `Stripe` object on every render.
+const stripePromise = loadStripe(constants.stripe.public);
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -137,10 +142,16 @@ const useStyles = makeStyles((theme) => ({
     'border': '0 solid rgba(0,0,0,.2)',
     'border-radius': '.4375rem',
     outline: 0,
-    height: '300px',
+    height: '400px',
     'background-color': '#fff',
     'background-clip': 'padding-box',
     marginTop: "10px"
+  },
+  select: {
+    '& .MuiTextField-root': {
+      // margin: theme.spacing(1),
+      width: '100%',
+    },
   },
   modalpaper: { margin: "auto" }
 }));
@@ -181,17 +192,18 @@ const Movie = () => {
   const handleOpen = () => { setOpen(true); };
   const handleClose = () => { setOpen(false); };
 
-  const [formState, setFormState] = React.useState({ name: '', description: '', actorInfo: '' });
+  const [formState, setFormState] = React.useState({ name: '', description: '', actorInfo: '', price: '', currency: '' });
   const [loadState, setLoadState] = React.useState({ limit: 3, page: 1, filter: '' });
 
 
   const [createMovie] = useMutation(queries.createMovies, {
-    variables: { name: formState.name, description: formState.description, actorInfo: formState.actorInfo },
+    variables: { name: formState.name, description: formState.description, actorInfo: formState.actorInfo, currency: formState.currency, price: formState.price },
     onCompleted: () => { refetch(); showNotification('s'); handleClose(); }
   });
   const [updateRating] = useMutation(queries.updateMovies, { onCompleted: () => { } });
   const updateRate = function (id, val) { updateRating({ variables: { movieId: Number(id), rating: Number(val) } }) };
   const didMount = useRef(false);
+  const didMount2 = useRef(false);
 
   const { loading, error, data, refetch, subscribeToMore } = useQuery(queries.fetchMovie, { variables: loadState });
   if (error) showNotification('d');
@@ -204,8 +216,34 @@ const Movie = () => {
         refetch();
       }
     });
-  }, [])
-  React.useEffect(() => { refetch(); }, [loadState])
+  }, []);
+  React.useEffect(() => { refetch(); }, [loadState]);
+  const [movieId, setMovieId] = React.useState(null);
+  let btnRef = useRef();
+
+  React.useEffect(() => {
+    if (didMount2.current) createSession();
+    else didMount2.current = true;
+  }, [movieId]);
+
+
+  const [createSession] = useMutation(queries.createCheckoutSession, {
+    variables: { movieId: movieId },
+    onCompleted: async (session) => {
+      console.log(session);
+      const stripe = await stripePromise;
+      const result = await stripe.redirectToCheckout({
+        sessionId: session.checkout.id,
+      });
+      if (result.error) {
+        showNotification('d');
+      }
+    }
+  });
+  const checkout = (id) => {
+    btnRef.current.setAttribute("disabled", "disabled");
+    setMovieId(Number(id));
+  }
   return (
     <main style={{ backgroundColor: "white", height: "100%" }} className={classes.content}>
       <div className={classes.toolbar} />
@@ -256,6 +294,12 @@ const Movie = () => {
                               <Grid item xs={12} >
                                 <TextField variant="filled" required fullWidth id="actorInfo" label="Actor Info" name="actorInfo" autoComplete="actorInfo" onChange={(e) => setFormState({ ...formState, actorInfo: e.target.value })} />
                               </Grid>
+                              <Grid item xs={8} >
+                                <TextField variant="filled" required fullWidth id="price" label="Pricing" name="price" autoComplete="price" onChange={(e) => setFormState({ ...formState, price: e.target.value })} />
+                              </Grid>
+                              <Grid item xs={4}>
+                                <TextField variant="filled" fullWidth select value={formState.currency} onChange={(e) => setFormState({ ...formState, currency: e.target.value })}> {constants.currencies.map((option) => (<MenuItem key={option.value} value={option.value}> {option.label} </MenuItem>))} </TextField>
+                              </Grid>
                             </Grid>
                             <br />
 
@@ -275,7 +319,7 @@ const Movie = () => {
       </div>
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid container spacing={4}>
-          {data && (data.movie.movie.map(({ id, name, description, actorInfo, rating }) => (
+          {data && (data.movie.movie.map(({ id, name, description, actorInfo, rating, price, currency }) => (
             <Grid item key={`movie-` + id} xs={12} sm={6} md={4}>
               <Card className={classes.card}>
                 <CardMedia className={classes.cardMedia} image="https://source.unsplash.com/random" title="Image title" />
@@ -292,6 +336,11 @@ const Movie = () => {
                 </CardContent>
                 <CardActions>
                   <Rating id={`myid-${id}`} className={`rate.rating${rating}`} readOnly={false} key={`lalal=${id}`} name={`lalal${id}`} onChange={(e, val) => { updateRate(Number(e.target.parentElement.id.replace('myid-', '')), val) }} defaultValue={((rating && rating.rating) ? rating.rating : 0)} size="large" />
+                </CardActions>
+                <CardActions>
+                  <Button ref={btnRef} type="submit" fullWidth role="link" variant="contained" color="secondary" className={classes.submit} onClick={() => { checkout(id); }} >
+                    `Buy for ${price || 0} {currency}`
+                  </Button>
                 </CardActions>
               </Card>
             </Grid>

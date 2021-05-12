@@ -74,5 +74,9 @@ export const constants = {
     },
     sentry: {
         dns: process.env.REACT_APP_SENTRY_URL
+    },
+    currencies : [ { value: 'USD', label: '$', }, { value: 'INR', label: '₹', } ],
+    stripe: {
+        public: process.env.REACT_APP_STRIPE_PUBLIC_KEY || 'pk_test_51IqAqcSEEyvyGRoa8kDUMFXXWppmhtYymdDV4ZQTMp5TpABz3xsI7s0qftcBOJTaIx9ZlkKX3Fs9XLBXsLDngkUb00c0hdf4Xn'
     }
 }

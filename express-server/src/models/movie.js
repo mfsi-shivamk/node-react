@@ -4,6 +4,10 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     actorInfo: DataTypes.TEXT,
     totalAvgRating: DataTypes.INTEGER,
+    productId: DataTypes.STRING,
+    priceId: DataTypes.STRING,
+    price: DataTypes.STRING,
+    currency: DataTypes.STRING,
     totalRatingCount: DataTypes.INTEGER
   }, {});
   // eslint-disable-next-line func-names

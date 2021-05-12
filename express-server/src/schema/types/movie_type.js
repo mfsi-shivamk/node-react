@@ -16,6 +16,8 @@ const MovieType = new GraphQLObjectType({
     name: { type: GraphQLString },
     count: { type: GraphQLFloat },
     actorInfo: { type: GraphQLString },
+    price: { type: GraphQLString },
+    currency: { type: GraphQLString },
     description: { type: GraphQLString },
     totalAvgRating: { type: GraphQLFloat },
     totalRatingCount: { type: GraphQLFloat },

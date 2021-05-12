@@ -26,7 +26,7 @@ passport.use(new JwtStrategy({
   try {
     let user = null;
     user = await db.User.findOne({
-      where: { id: payload.sub }, attributes: ['id', 'phone', 'firstName', 'lastName', 'key', 'email']
+      where: { id: payload.sub }, attributes: ['id', 'phone', 'firstName', 'lastName', 'key', 'email', 'stripeId']
     });
     if (!user) {
       return done('user', false);

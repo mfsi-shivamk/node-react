@@ -17,6 +17,9 @@ module.exports = {
     key: {
       type: Sequelize.STRING
     },
+    stripeId: {
+      type: Sequelize.STRING
+    },
     phone: {
       type: Sequelize.STRING
     },

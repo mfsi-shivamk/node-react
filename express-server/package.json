@@ -73,6 +73,7 @@
     "sequelize": "4.38.0",
     "sequelize-cli": "^5.5.1",
     "stack-trace": "0.0.10",
+    "stripe": "^8.148.0",
     "subscriptions-transport-ws": "^0.9.18",
     "twilio": "^3.51.0"
   }

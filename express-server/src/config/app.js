@@ -1,3 +1,5 @@
+global.sentryUrl = process.env.SENTRY_URL;
+
 export default {
 
   /**
