@@ -168,8 +168,8 @@ function Header(prop) {
             })}
           >
             <Typography variant="h6" noWrap>
-            {(prop.user && prop.user.userName)  ? prop.user.userName:"-"}
-          </Typography>
+            {(prop.user && prop.user.userName)  ? prop.user.userName.toUpperCase()[0]:"-"}
+            </Typography>
           </IconButton>
             <MenuIcon onClick={open? handleDrawerClose : handleDrawerOpen}/>
             <div className={classes.search}>
@@ -204,7 +204,7 @@ function Header(prop) {
         <div className={classes.toolbar} style={{float:'left'}}>
           <IconButton onClick={handleDrawerClose}>
           <Typography variant="h6" noWrap>
-            {(localStorage.user && localStorage.user.length)  ? localStorage.user.toUpperCase():"A"}
+          {(prop.user && prop.user.userName)  ? prop.user.userName:"-"}
           </Typography>          
           </IconButton>
         </div>
