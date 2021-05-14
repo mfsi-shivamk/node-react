@@ -72,7 +72,7 @@ export default function ComplexGrid() {
   return (
     <div >
       <Grid container spacing={3} direction="column" alignItems="center" justify="center" style={{ minHeight: '100vh' }}>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={10} sm={6} md={6}>
           <form noValidate autoComplete="off">
             <Card login="true" >
               <CardHeader className={classes.cardHeader} title="Create Account" color="rose" >

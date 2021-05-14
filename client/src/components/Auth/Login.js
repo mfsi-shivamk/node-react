@@ -22,7 +22,8 @@ import axios from '../../axios';
 import { constants } from '../../config/constant';
 
 const cookies = new Cookies();
-const useStyles = makeStyles((theme) => ({ inputPadding: { padding: '8px' }, paperContainer: {}, cardHeader: { textAlign: 'center' }, buttonPadding: { marginBottom: '1px', marginTop: '25px' }, root: { flexGrow: 1, justifyContent: 'center' }, cardHidden: { opacity: "0", transform: "translate3d(0, -60px, 0)" }, paper: { padding: theme.spacing(2), margin: 'auto', maxWidth: 500, }, image: { width: 128, height: 128, }, img: { margin: 'auto', display: 'block', maxWidth: '100%', maxHeight: '100%', }, }));
+const useStyles = makeStyles((theme) => ({ 
+  inputPadding: { padding: '8px' }, paperContainer: {}, cardHeader: { textAlign: 'center' }, buttonPadding: { marginBottom: '1px', marginTop: '25px' }, root: { flexGrow: 1, justifyContent: 'center' }, cardHidden: { opacity: "0", transform: "translate3d(0, -60px, 0)" }, paper: { padding: theme.spacing(2), margin: 'auto', maxWidth: 500, }, image: { width: 128, height: 128, }, img: { margin: 'auto', display: 'block', maxWidth: '100%', maxHeight: '100%', }, }));
 
 export default function ComplexGrid() {
   const classes = useStyles();
@@ -64,7 +65,7 @@ export default function ComplexGrid() {
   return (
     <div >
       <Grid container spacing={3} direction="column" alignItems="center" justify="center" style={{ minHeight: '100vh' }}>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={10} sm={6} md={6}>
           <Card login="true" >
             <CardHeader className={classes.cardHeader} title="Log in" color="rose" >
             </CardHeader>

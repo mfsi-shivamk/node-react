@@ -9,7 +9,7 @@ import { constants } from '../../config/constant';
 
 const useStyles = makeStyles(() => ({
     root: {
-        display: 'flex',
+        display: 'flex'
     }
 }));
 

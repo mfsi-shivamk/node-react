@@ -20,7 +20,9 @@ import MailIcon from '@material-ui/icons/Mail';
 import { useHistory } from "react-router-dom";
 import { fade} from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
-import { constants } from '../../config/constant'
+import { constants } from '../../config/constant';
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -125,11 +127,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Header(prop) {
+function Header(prop) {
   const classes = useStyles();
   const history = useHistory();
   const [open, setOpen] = React.useState(true);
-
+  
   const routeChange = (path) =>{  
     history.push(path);
     window.location.href = path;
@@ -141,7 +143,9 @@ export default function Header(prop) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
+  React.useEffect( () => {
+    if(isWidthDown('s', prop.width) ||  isWidthDown('xs', prop.width)) setOpen(false);
+  }, [])
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -223,3 +227,4 @@ export default function Header(prop) {
 Header.propTypes = {
   user: PropTypes.objectOf(PropTypes.any).isRequired
 }
+export default withWidth()(Header)

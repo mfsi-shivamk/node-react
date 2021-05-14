@@ -1,3 +1,4 @@
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -50,3 +51,4 @@ ReactDOM.render(
   </ApolloProvider>,
   document.getElementById('root')
 );
+serviceWorkerRegistration.register();
