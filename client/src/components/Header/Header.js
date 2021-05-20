@@ -21,7 +21,8 @@ import { useHistory } from "react-router-dom";
 import { fade} from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import { constants } from '../../config/constant';
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
+import withWidth/* , { isWidthDown } */ from '@material-ui/core/withWidth';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const drawerWidth = 240;
 
@@ -128,6 +129,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Header(prop) {
+  const matches = useMediaQuery('(min-width:600px)');
   const classes = useStyles();
   const history = useHistory();
   const [open, setOpen] = React.useState(true);
@@ -144,8 +146,9 @@ function Header(prop) {
     setOpen(false);
   };
   React.useEffect( () => {
-    if(isWidthDown('s', prop.width) ||  isWidthDown('xs', prop.width)) setOpen(false);
-  }, [])
+    if(matches) setOpen(true);
+     else setOpen(false);
+  }, [matches])
   return (
     <div className={classes.root}>
       <CssBaseline />
