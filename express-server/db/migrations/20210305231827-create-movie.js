@@ -14,8 +14,17 @@ module.exports = {
     description: {
       type: Sequelize.TEXT
     },
+    count: {
+      type: Sequelize.INTEGER
+    },
     actorInfo: {
       type: Sequelize.TEXT
+    },
+    price: {
+      type: Sequelize.STRING
+    },
+    currency: {
+      type: Sequelize.STRING
     },
     totalAvgRating: {
       type: Sequelize.DECIMAL(10, 2)
@@ -27,15 +36,19 @@ module.exports = {
       type: Sequelize.INTEGER
     },
     productId: {
-      type: Sequelize.INTEGER
-    },
-    priceId: {
-      type: Sequelize.INTEGER
-    },
-    currency: {
       type: Sequelize.STRING
     },
-    price: {
+    userId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'Users',
+        key: 'id'
+      }
+    },
+    key: {
+      type: Sequelize.STRING
+    },
+    priceId: {
       type: Sequelize.STRING
     },
     createdAt: {

@@ -36,10 +36,6 @@ export const constants = {
         ],
         login: {
             url: '/login'
-        },
-        eye: {
-            steps: ['Preperation', 'Contrast Check', 'Visual acuity test'],
-            url: '/eye-test'
         }
     },
     cookie: {

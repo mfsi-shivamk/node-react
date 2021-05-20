@@ -15,7 +15,7 @@ export default (sequelize, DataTypes) => {
   User.associate = function (models) {
     models.User.hasMany(models.movieComment, { foreignKey: 'userId' });
     models.User.hasMany(models.movieRating, { foreignKey: 'userId' });
-    models.User.hasMany(models.eyeTest, { foreignKey: 'userId' });
+    models.User.hasMany(models.movie, { foreignKey: 'movieId' });
   };
   User.prototype.comparePassword = function (password) {
     const dbPass = this.getDataValue('key');

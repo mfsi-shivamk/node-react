@@ -27,6 +27,7 @@ import InputBase from '@material-ui/core/InputBase';
 import MovieIcon from '@material-ui/icons/Movie';
 import SearchIcon from '@material-ui/icons/Search';
 
+import Upload from '../Upload/Upload';
 import { queries } from '../../config/gqlQueries';
 import { constants } from '../../config/constant';
 import { loadStripe } from '@stripe/stripe-js';
@@ -161,7 +162,7 @@ const Movie = () => {
 
 
   const handleOpen = () => { setOpen(true); };
-  const handleClose = () => { setOpen(false); };
+  const handleClose = () => { setSelectedMovieId(null); setOpen(false); };
 
   const [formState, setFormState] = React.useState({ name: '', description: '', actorInfo: '', price: '', currency: '' });
   const [loadState, setLoadState] = React.useState({ limit: 3, page: 1, filter: '' });
@@ -196,12 +197,14 @@ const Movie = () => {
     if (didMount2.current) createSession();
     else didMount2.current = true;
   }, [movieId]);
-
-
+ const [ selectedMovieId, setSelectedMovieId] = React.useState(null);
+  React.useEffect(() => {
+    if(selectedMovieId) handleOpen();
+    else handleClose();
+  }, [selectedMovieId])
   const [createSession] = useMutation(queries.createCheckoutSession, {
     variables: { movieId: movieId },
     onCompleted: async (session) => {
-      console.log(session);
       const stripe = await stripePromise;
       const result = await stripe.redirectToCheckout({
         sessionId: session.checkout.id,
@@ -249,10 +252,10 @@ const Movie = () => {
                             <MovieIcon />
                           </Avatar>
                           <Typography component="h1" variant="h5">
-                            Create Movie
+                            {selectedMovieId? 'Upload movie': "Create Movie"}  
                           </Typography>
 
-                          <form className={classes.form} noValidate onSubmit={(e) => {
+                          {selectedMovieId ?  <Upload movieId={selectedMovieId} />:<form className={classes.form} noValidate onSubmit={(e) => {
                             e.preventDefault();
                           }}>
                             <Grid container spacing={2}>
@@ -277,7 +280,7 @@ const Movie = () => {
                             <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} onClick={() => { createMovie(); }} >
                               Add Movie
                             </Button>
-                          </form>
+                          </form>}
                         </div>
                       </Container>
                     </div>
@@ -307,6 +310,11 @@ const Movie = () => {
                 </CardContent>
                 <CardActions>
                   <Rating id={`myid-${id}`} className={`rate.rating${rating}`} readOnly={false} key={`lalal=${id}`} name={`lalal${id}`} onChange={(e, val) => { updateRate(Number(e.target.parentElement.id.replace('myid-', '')), val) }} defaultValue={((rating && rating.rating) ? rating.rating : 0)} size="large" />
+                </CardActions>
+                <CardActions>
+                  <Button fullWidth role="link" variant="contained" color="secondary" className={classes.submit} onClick={() => { console.log(id);setSelectedMovieId(id); }} >
+                    `Upload`
+                  </Button>
                 </CardActions>
                 <CardActions>
                   <Button ref={btnRef} type="submit" fullWidth role="link" variant="contained" color="secondary" className={classes.submit} onClick={() => { checkout(id); }} >
