@@ -14,22 +14,37 @@ const MovieType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
+    description: { type: GraphQLString },
     count: { type: GraphQLFloat },
     actorInfo: { type: GraphQLString },
     price: { type: GraphQLString },
     currency: { type: GraphQLString },
-    description: { type: GraphQLString },
     totalAvgRating: { type: GraphQLFloat },
     totalRatingCount: { type: GraphQLFloat },
     totalCommentCount: { type: GraphQLFloat },
+    productId: { type: GraphQLString },
+    userId: { type: GraphQLFloat },
+    key: { type: GraphQLString },
+    priceId: { type: GraphQLString },
     createdAt: { type: GraphQLString },
     updatedAt: { type: GraphQLString },
+    upload: { type: GraphQLFloat },
+    buy: { type: GraphQLFloat },
     comment: {
       // eslint-disable-next-line global-require
       type: new GraphQLList(require('./movie_comment_type')),
       resolve(parentValue) {
         return db.movieComment.findAll({
           where: { movieId: parentValue.id }
+        });
+      }
+    },
+    payment: {
+      // eslint-disable-next-line global-require
+      type: new GraphQLList(require('./payment_type')),
+      resolve(parentValue, arg, req) {
+        return db.Payment.findAll({
+          where: { movieId: parentValue.id, userId: req.user.id }
         });
       }
     },

@@ -24,13 +24,14 @@ const mutation = new GraphQLObjectType({
         currency: { type: GraphQLString },
         actorInfo: { type: GraphQLString }
       },
-      resolve(_parentValue, { name, description, actorInfo, price, currency }) {
+      resolve(_parentValue, { name, description, actorInfo, price, currency }, req) {
         return db.movie.create({
           name,
           description,
           actorInfo,
           price,
           currency,
+          userId: req.user.id,
           totalAvgRating: 0,
           totalRatingCount: 0
         })
@@ -112,6 +113,7 @@ const mutation = new GraphQLObjectType({
       },
       resolve:  async(_parentValue, args, req) => {
        const movie = await db.movie.findOne({
+         attributes:['id', 'priceId'],
           where: { id: args.movieId }
         });
         if(!movie) throw new Error('INVALID_CREDENTIALS');

@@ -21,8 +21,8 @@ const MovieRatingType = new GraphQLObjectType({
       // eslint-disable-next-line global-require
       type: require('./movie_type'),
       resolve(parentValue) {
-        return db.Movie.findOne({
-          where: { movieId: parentValue.movie }
+        return db.movie.findOne({
+          where: { id: parentValue.movie }
         });
       }
     },
