@@ -39,6 +39,11 @@ export const queries = {
               price
               currency
               description
+              upload
+              buy
+              payment {
+                status
+              }
               rating {
                     id
                     rating

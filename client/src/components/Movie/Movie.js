@@ -225,6 +225,7 @@ const Movie = () => {
         <Container maxWidth="sm">
           <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
             Marvel Movies
+           
             </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -293,7 +294,7 @@ const Movie = () => {
       </div>
       <Container className={classes.cardGrid} maxWidth="md">
         <Grid container spacing={4}>
-          {data && (data.movie.movie.map(({ id, name, description, actorInfo, rating, price, currency }) => (
+          {data && (data.movie.movie.map(({ upload, buy, id, name, description, actorInfo, rating, price, currency }) => (
             <Grid item key={`movie-` + id} xs={12} sm={6} md={4}>
               <Card className={classes.card}>
                 <CardMedia className={classes.cardMedia} image="https://source.unsplash.com/random" title="Image title" />
@@ -311,16 +312,22 @@ const Movie = () => {
                 <CardActions>
                   <Rating id={`myid-${id}`} className={`rate.rating${rating}`} readOnly={false} key={`lalal=${id}`} name={`lalal${id}`} onChange={(e, val) => { updateRate(Number(e.target.parentElement.id.replace('myid-', '')), val) }} defaultValue={((rating && rating.rating) ? rating.rating : 0)} size="large" />
                 </CardActions>
+                  {upload ? 
                 <CardActions>
                   <Button fullWidth role="link" variant="contained" color="secondary" className={classes.submit} onClick={() => { console.log(id);setSelectedMovieId(id); }} >
                     `Upload`
                   </Button>
                 </CardActions>
+                  :''
+                  }
+                  {
+                    buy ? 
                 <CardActions>
                   <Button ref={btnRef} type="submit" fullWidth role="link" variant="contained" color="secondary" className={classes.submit} onClick={() => { checkout(id); }} >
                     `Buy for ${price || 0} {currency}`
                   </Button>
-                </CardActions>
+                </CardActions> : ''
+                  }
               </Card>
             </Grid>
           )))}

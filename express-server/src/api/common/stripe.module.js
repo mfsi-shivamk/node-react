@@ -54,6 +54,12 @@ class Stripe {
         success_url: 'https://example.com/success',
         cancel_url: 'https://example.com/cancel',
       })
+      db.Payment.create({
+        userId:user.id,
+        movieId:movie.id,
+        sessionId:id,
+        status:"SESSION_CREATED"
+      })
       return id;
     }
     catch(err) {

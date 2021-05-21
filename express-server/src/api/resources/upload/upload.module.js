@@ -42,7 +42,7 @@ function isValid(size) {
     }
   }
   
-  function  onChunkedUpload(fields, file, res) {
+  function  onChunkedUpload(fields, file, res, where) {
       
       var size = parseInt(fields.qqtotalfilesize),
       uuid = fields.qquuid,

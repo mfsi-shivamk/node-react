@@ -14,12 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     key: DataTypes.STRING,
     priceId: DataTypes.STRING
   }, {});
-  // eslint-disable-next-line func-names
   movie.associate = function (models) {
-    // associations can be defined here
-    // models.movie.belongsTo(models.User, { foreignKey: 'userId' });
+    models.movie.belongsTo(models.User, { foreignKey: 'userId' });
     models.movie.hasMany(models.movieComment, { foreignKey: 'movieId' });
     models.movie.hasMany(models.movieRating, { foreignKey: 'movieId' });
+    models.movie.hasMany(models.Payment, { foreignKey: 'movieId' });
   };
   return movie;
 };

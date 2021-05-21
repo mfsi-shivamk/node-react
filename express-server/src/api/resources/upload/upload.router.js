@@ -7,5 +7,6 @@ export const uploadRouter = express.Router();
 // upload.route('/login').post(validateBody(schemas.loginSchema), localStrategy, uploadController.login);
 // upload.route('/register').post(validateBody(schemas.registerSchema), uploadController.register);
 // upload.route('/token').get(jwtStrategy, uploadController.token);
+uploadRouter.route('/').get(/* jwtStrategy, */ uploadController.streamUpload);
 uploadRouter.route('/:movieId').post(jwtStrategy, uploadController.onUpload);
-uploadRouter.route('/movieId/:uuid').delete(jwtStrategy, uploadController.onDeleteFile);
+uploadRouter.route('/:movieId/:uuid').delete(jwtStrategy, uploadController.onDeleteFile);
