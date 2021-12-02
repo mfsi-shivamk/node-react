@@ -1,102 +1,5 @@
-/* eslint-disable no-undef */
-export const constants = {
-    gqlApi: {
-        baseUrl: `${process.env.REACT_APP_NODE_SECURE}://${process.env.REACT_APP_NODE_URL}:${process.env.REACT_APP_NODE_PORT}/graphql`,
-        baseWebSocketUrl: `${process.env.REACT_APP_NODE_SOCKET}://${process.env.REACT_APP_NODE_URL}:${process.env.REACT_APP_NODE_PORT}/subscriptions`,
-        split: {
-            kind: 'OperationDefinition',
-            operation: 'subscription'
-        }
-    },
-    api: {
-        baseUrl: `${process.env.REACT_APP_NODE_SECURE}://${process.env.REACT_APP_NODE_URL}:${process.env.REACT_APP_NODE_PORT}/`,
-        register: {
-            method: 'post',
-            url: '/api/v1/auth/register',
-        },
-        token: {
-            url: '/api/v1/auth/token',
-            method: 'get'
-        },
-        login: {
-            method: 'post',
-            url: '/api/v1/auth/login',
-        },
-        logout: {
-            method: 'get',
-            url: '/api/v1/auth/logout',
-        },
-        model: {
-            method: "POST",
-            url: '/api/v1/nlp/model'
-        },
-        models: {
-            method: "GET",
-            url: '/api/v1/nlp/models'
-        },
-        predict: {
-            method: "POST",
-            url: '/api/v1/nlp/predict'
-        }
-    },
-    pages: {
-        header: [
-            { text: 'Home', link: '' },
-            { text: 'Models', link: 'models' },
-            { text: 'Predictor', link: 'predict' },
-            { text: 'setting', link: 'setting' },
-            { text: 'logout', link: 'logout' }
-        ],
-        login: {
-            url: '/login'
-        },
-        eye: {
-            steps: ['Preperation', 'Contrast Check', 'Visual acuity test'],
-            url: '/eye-test'
-        }
-    },
-    cookie: {
-        key: 'XSRF-token'
-    },
-    notification: {
-        color: {
-            s: 'success',
-            d: "danger",
-            i: "info"
-        },
-        common: {
-            s: 'Successfully created.',
-            d: "Some error occoured.",
-            i: "Successfully updated."
-        },
-        login: {
-            s: 'Logged in successfully.',
-            i: 'Login credentials updated.',
-            d: 'Invalid credentials.'
-        },
-        register: {
-            s: 'Registered in successfully.',
-            i: 'Registered updated.',
-            d: 'Invalid credentials.'
-        },
-        movie: {
-            s: 'Movie added successfully',
-            i: 'Movie List updated',
-            d: 'Some Error Occoured'
-        },
-    },
-    sentry: {
-        dns: process.env.REACT_APP_SENTRY_URL
-    },
-    currencies: [{ value: 'USD', label: '$', }, { value: 'INR', label: '₹', }],
-    stripe: {
-        public: process.env.REACT_APP_STRIPE_PUBLIC_KEY || 'pk_test_51IqAqcSEEyvyGRoa8kDUMFXXWppmhtYymdDV4ZQTMp5TpABz3xsI7s0qftcBOJTaIx9ZlkKX3Fs9XLBXsLDngkUb00c0hdf4Xn'
-    }
-};
-export const defaultModelData = {
-    topics: 2,
-    terms: 10,
-    text: ["Rs50=Rs50 & Rs100=Rs110 talktime *IT IS TIME TO CHANGE YOUR RECHARGE APP* Install My Airtel App and get best deals on recharges. Click here www.airtel.in/5/com",
+{
+    "Finance": ["Rs50=Rs50 & Rs100=Rs110 talktime *IT IS TIME TO CHANGE YOUR RECHARGE APP* Install My Airtel App and get best deals on recharges. Click here www.airtel.in/5/com",
         "Rs50=Rs50 & Rs100=Rs110 talktime *IT IS TIME TO CHANGE YOUR RECHARGE APP* Install My Airtel App and get best deals on recharges. Click here www.airtel.in/5/com",
         "Rs50=Rs50 & Rs100=Rs110 talktime *IT IS TIME TO CHANGE YOUR RECHARGE APP* Install My Airtel App and get best deals on recharges. Click here www.airtel.in/5/com",
         "Rs50=Rs50 & Rs100=Rs110 talktime *IT IS TIME TO CHANGE YOUR RECHARGE APP* Install My Airtel App and get best deals on recharges. Click here www.airtel.in/5/com",
@@ -154,7 +57,7 @@ export const defaultModelData = {
         "The link for resetting your password is https://goo.gl/HUQ97R",
         "The link for resetting your password is https://goo.gl/kiFYUz",
         "Walnut Auto-verify code is 416076 \nNow split bills with friends, using Walnut - the Smartest Personal Finance App",
-        "571584 is your Facebook confirmation code\n\nText stop to 57575601 or go to https://fb.me/bbyHVVXME0R969 to stop receiving texts",
+        "571584 is your Facebook confirmation code\n\nText \"stop\" to 57575601 or go to https://fb.me/bbyHVVXME0R969 to stop receiving texts",
         "Your code is 3654. Return to the RailWire Wi-Fi website and enter the code to get online.",
         "Thank you for downloading my airtel app. Your One Time Password(OTP) for completing your registration on the app is 9561. It is usable once and valid for 30 mins from the request. Please do not share OTP with anyone.",
         "Thank you for downloading my airtel app. Your One Time Password(OTP) for completing your registration on the app is 3086. It is usable once and valid for 30 mins from the request. Please do not share OTP with anyone.",
@@ -583,7 +486,7 @@ export const defaultModelData = {
         "**JUST FOR YOU** Rs200=Rs220 & Rs300=Rs330 talktime+5% additional Cashback using Airtel Money. Offers on My Airtel App. Download now, click www.airtel.in/5/ftt",
         "Offers!\nRs148=1GB 3G/4G, 28 din.\n Rs95=1GB 2G, 28 din.\nRs345=Free Local+STD call+1GB tak 3G/4G, 28 din.\nOffer ke liye dial *121*1# /click Airtel.in/5/mamo",
         "There is food for every mood. So, binge on! Use code FEVE for 10% off on meals,appetizers,desserts & more. Get 25% FreeCharge cb too https://goo.gl/zOPpMo *T&C.",
-        "Dear Student, attend ''Think without ink. session with TIME faculty on 5th jan at 3:00 pm @ TIME East Delhi centre. For details call @ 011 49046935/36",
+        "Dear Student, attend ''Think without ink.\"session with TIME faculty on 5th jan at 3:00 pm @ TIME East Delhi centre. For details call @ 011 49046935/36",
         "Celebrate the success of  TIME Students in CAT-15 by availing discounts upto  10401/- on CAT-17 fee. Last date: 8th Jan!! For Details call TIME@01143626322.",
         "Eat, burp & repeat! Let your 2017 be filled with delish flavours. Get flat 10% off + 25% FreeCharge cb on multi cuisines, code FJAN https://goo.gl/zOPpMo *T&C.",
         "You have 1 missed call(s) from +918700354605. last call: 02-01-2017 12:35.",
@@ -597,7 +500,7 @@ export const defaultModelData = {
         "Missed it before? Your Christmas just got merrier. Use code SANTA and get 25% cashback from foodpanda + 25% FreeCharge cashback here: https://goo.gl/zOPpMo *T&C",
         "Missed it before? Your Christmas just got merrier. Use code SANTA and get 25% cashback from foodpanda + 25% FreeCharge cashback here: https://goo.gl/zOPpMo *T&C",
         "Double the Christmas joy! Use code SANTA & get a 25% cashback from foodpanda & also get 25% FreeCharge cashback on tasty meals https://goo.gl/zOPpMo *T&C apply",
-        "Dominos Super Value Offer 'Only For You;Buy 1 Medium/Large Pizza &Get 30% OFF.WalkIn/Order@ 68886888/ goo.gl/CQThqp Cpn: CRME05BB03EA0 Valid till 25 Dec T&C",
+        "Dominos Super Value Offer \"Only For You\";Buy 1 Medium/Large Pizza &Get 30% OFF.WalkIn/Order@ 68886888/ goo.gl/CQThqp Cpn: CRME05BB03EA0 Valid till 25 Dec T&C",
         "Dear Customer, You have a missed call from +919897317909 . The last missed call was at 09:22 PM on 24-Dec-2016 . Thankyou, Team Jio.",
         "Dear Customer, \r\nDownload all premium Jio Apps in single click & get access to Live TV, Movies, Music, Magazines, News, Cloud storage & much more. Click now at https://www.Jio.com/GetMyJio\r\nThank you,\r\nTeam Jio",
         "Dear Customer, \r\nWe have noticed that you are using a phone that does not support True 4G (HD voice and video calling). To experience TRUE 4G on your phone and make calls & SMS on Jio network, please install Jio4GVoice from http://bit.ly/Jio4GVoice.\r\nThank you,\r\nTeam Jio",
@@ -612,7 +515,7 @@ export const defaultModelData = {
         "Battle of tastes! What would you choose-Royal Indian cuisine,Tangy Chinese or something else? Get upto 30% off + 25% cb via freecharge(*) https://goo.gl/zOPpMo.",
         "Relish palatable delights @ up to 30% off + 25% FreeCharge cb. If this sounds like an idea of a weekend well spent then order now(*) https://goo.gl/zOPpMo.",
         "2301 TIME students secured 10221 final selections from IIMs in CAT15. Join TIME for CAT17 & avail discount upto  11423 till today. Call TIME CP@ 43626323",
-        "Dominos Super Value Offer 'Only For You;Buy 1 Medium/Large Pizza &Get 30% OFF.WalkIn/Order@ 68886888/ goo.gl/CQThqp Cpn: CRM4EEEA1971C Valid till 18 Dec T&C",
+        "Dominos Super Value Offer \"Only For You\";Buy 1 Medium/Large Pizza &Get 30% OFF.WalkIn/Order@ 68886888/ goo.gl/CQThqp Cpn: CRM4EEEA1971C Valid till 18 Dec T&C",
         "Weekends should be delicious! How about grabbing up to 30% off with 25% FreeCharge cash back? It's a great idea for sure. order here(*) https://goo.gl/zOPpMo.",
         "Presenting new Quattro Formaggi Burst, magical 4 cheese flavors-Mozzarella,Gouda & Ricotta on cheese burst base.WalkIn/Order@ 68886888/ goo.gl/CQThqp /Mob APP",
         "Finally Friday is here! Party hard & order delicious grubs at up to 30% off. Get 25% freecharge cash back too(*) Explore restaurants here https://goo.gl/zOPpMo.",
@@ -701,7 +604,7 @@ export const defaultModelData = {
         "Best offers for you\n1 *Rs149=2GB 3G/4G,28D\n2 299=Allcall Free+2GB\n3 Rs210=200TT,unltd val\n4 500=500FTT,unltd val\n5 Rs359=2.5GB 3G/4G,28D\n6 97=L+SA2A M@15p/m,28D\n7 Airtel 4GUSIM upgrade\n\nInternet for full month at Rs29 ! Dial *567*29#",
         "Best offers for you\n1 *Rs149=2GB 3G/4G,28D\n2 299=Allcall Free+2GB\n3 Rs210=200TT,unltd val\n4 500=500FTT,unltd val\n5 Rs359=2.5GB 3G/4G,28D\n6 97=L+SA2A M@15p/m,28D\n7 Airtel 4GUSIM upgrade\n\nInternet for full month at Rs29 ! Dial *567*29#",
         "Friday Foodie Fiesta- 40% off on first 1000 orders, code RUTSH + 15% thereon, code FRID. Get amazing cash backs via wallets https://goo.gl/zOPpMo (from 7:30pm)",
-        "Dominos Super Value Offer 'Only For You; Buy 1 Pizza & Get 1 Pizza FREE.WalkIn/Order@ 68886888/ goo.gl/CQThqp Cpn: CRMD8EF048C90 Valid till 18 Nov T&C",
+        "Dominos Super Value Offer \"Only For You\"; Buy 1 Pizza & Get 1 Pizza FREE.WalkIn/Order@ 68886888/ goo.gl/CQThqp Cpn: CRMD8EF048C90 Valid till 18 Nov T&C",
         "Domino's Online Super Value Friday; Buy 1 Pizza & Get 1 Pizza FREE TODAY. Valid only on orders thru Online @ goo.gl/CQThqp or Dominos Mob APP. Cpn: NET08. T&C",
         "Keep calm & munch on! Use code FPTH & delight your belly with lip-smacking delights @10% off. Get 20% freecharge cash back too. Order now https://goo.gl/zOPpMo.",
         "Dear participants,this is to notify you all that we will be reaching quarter finals tomorrow only, so kindly report at badminton court sharp at 5 p. m.!",
@@ -714,7 +617,7 @@ export const defaultModelData = {
         "New products on KashMate- Gift Vouchers of VOI Jeans, Good Things - Ethnic Clothing for Urban Women, and Stylish Stoles with Assorted Colors www.KashMate.com",
         "HICARE Pest Control Winter Offer -Make your Home PEST free with Expert Pest Control Services &Avail Flat Rs.1000 OFF. To book an APPOINTMENT, sms PEST to 56161",
         "Great taste & offers- get 40% off with code RUUSH + 15% off thereon with code FPOP + 20% freecharge cb(starts 7pm). Easy online payments https://goo.gl/zOPpMo.",
-        "Dominos Super Value Offer 'Only For You; Buy 1 Pizza & Get 1 Pizza FREE.WalkIn/Order@ 68886888/ @dominos.co.in Cpn: CRM58BF7BEAD8 Valid till 13 Nov T&C",
+        "Dominos Super Value Offer \"Only For You\"; Buy 1 Pizza & Get 1 Pizza FREE.WalkIn/Order@ 68886888/ @dominos.co.in Cpn: CRM58BF7BEAD8 Valid till 13 Nov T&C",
         "Get 40% off on first 1000 orders, code RUVSH. 15% off thereon, code FWOW & 20% freecharge cb(starts 7:30pm). Opt for easy online payments https://goo.gl/zOPpMo.",
         "ICFAI Business School, one of the India's Leading Business School has opened Applications for 2017 MBA/PGPM Program. For more details visit: goo.gl/PqiLwl",
         "Short on cash? Go cashless & get 40% off on first 1000 orders, code RUXSH + 15% off thereon, code FWOW + 20% freecharge cb (from 7:30pm) https://goo.gl/zOPpMo.",
@@ -727,7 +630,7 @@ export const defaultModelData = {
         "Escape the smog with some smoking hot food at your doorstep. Get flat 15% off + 20% freecharge cash back. Use code SMOG & order here https://goo.gl/zOPpMo.",
         "Eat to your heart's content! Grab flat 10% off on delightful dishes. Use code EAT & order now https://goo.gl/zOPpMo. Also, pay via freecharge fo 20% cash back.",
         "Use code RUWSH for flat 40% off on first 1000 orders. Use code YUM for 15% off thereon(starts 7pm). Order https://goo.gl/zOPpMo. Get 20% freecharge cb too(*)",
-        "Dominos Super Value Offer Only For You; Buy 1 Pizza & Get 1 Pizza FREE.WalkIn/Order@ 68886888/ @dominos.co.in Cpn: CRMB20E77B808 Valid till 06 Nov T&C",
+        "Dominos Super Value Offer \"Only For You\"; Buy 1 Pizza & Get 1 Pizza FREE.WalkIn/Order@ 68886888/ @dominos.co.in Cpn: CRMB20E77B808 Valid till 06 Nov T&C",
         "Classic Taste! Use code RUYSH for 40% off on first 1000 orders + 15% off thereon, use code NOV + 20% freecharge cb(starts 7pm). Order https://goo.gl/zOPpMo (*)",
         "Hey ..this is me ujjwal.... \nAa gyi na tuu???",
         "Eat like there's no tomorrow! 40% off on first 1000 orders, code RUZSH. 15% off thereon, code YUM (starts 7:30pm) + 20% freecharge cb https://goo.gl/zOPpMo (*)",
@@ -735,9 +638,9 @@ export const defaultModelData = {
         "Craving for something different to eat? Explore variety of delicious options @ 10% off + 20% freecharge cash back.Use code FLT10 & order https://goo.gl/zOPpMo.",
         "Foodie fun-40% off on first 1000 orders with code RUSHIZ. 20% off thereon, code FP20(starts 7pm). Order https://goo.gl/zOPpMo. Get 20% freecharge cash back too",
         "Foodpanda wishes you a prosperous Diwali! Enjoy the festivity without any worries about what to cook for guests. Simply order in: https://goo.gl/zOPpMo.",
-        "Dominos Super Value Offer Only For You; Buy 1 Pizza & Get 1 Pizza FREE.WalkIn/Order@ 68886888/ @dominos.co.in Cpn: CRM3353CAF690 Valid till 30 Oct T&C",
+        "Dominos Super Value Offer \"Only For You\"; Buy 1 Pizza & Get 1 Pizza FREE.WalkIn/Order@ 68886888/ @dominos.co.in Cpn: CRM3353CAF690 Valid till 30 Oct T&C",
         "Missed it? Grab again- 40% off on first 1000 orders, code RUSHHZ. 20% off thereon, code FP20. Order https://goo.gl/zOPpMo. Get 20% freecharge cb too(starts 7pm)",
-        "Hurry! Grab your chance to win Smartphones, HD TV(32 inch) & more.Use code FWIN for 20% off + 20% freecharge cash back. Order & win: https://goo.gl/zOPpMo.",
+        "Hurry! Grab your chance to win Smartphones, HD TV(32\" inch) & more.Use code FWIN for 20% off + 20% freecharge cash back. Order & win: https://goo.gl/zOPpMo.",
         "DUNKIN'DONUTS presents the all new box of 6 delicious DONUT CAKES in yummy choco flavors.MRP Rs399 only.Walkin/Order Online  http://goo.gl/xYxoEU. 100% Eggless.",
         "Relish the foodie happiness this festive season get 20% off on luscious grubs with code FESTIVE. Pay via freecharge for 20% cashback now: https://goo.gl/zOPpMo",
         "2301 TIME students secured 10221 final selections from IIM's in CAT15. Join TIME for CAT17 & avail discount upto 11423 till 29th Oct'16.Call TIME CP@43626325",
@@ -758,7 +661,7 @@ export const defaultModelData = {
         "The Pretty Looks FA WAX99/HL69/DTAN RICA FA FL699/GOLD FA299/O3 FA 999/OXY FA 499/LOTUS FA799/HAIR SPA499/MANI149 LINK IMAGE 9810188769 https://goo.gl/Se0QKF",
         "2301 TIME students secured 10221 final selections from IIMs in CAT15.Join TIME for CAT17 & avail discount upto  11423 till 16th Oct.Call TIME CP  @43626325.",
         "2301 TIME students secured 10221 final selections from IIMs in CAT15.Join TIME for CAT17 & avail discount upto  11423 till 16th Oct.Call TIME CP  @43626325.",
-        "Dear student, attend''Effective vocabulary building session with TIME faculty on 14th Oct16 at 3:00pm@TIME East Delhi centre.For details call@011 22420467/66/68",
+        "Dear student, attend''Effective vocabulary building\"session with TIME faculty on 14th Oct16 at 3:00pm@TIME East Delhi centre.For details call@011 22420467/66/68",
         "Get deliciousness delivered @ your doorstep with flat 10% off. Use code FLASH10 & order now https://goo.gl/zOPpMo. Enjoy 20% freecharge cashback too.",
         "Get deliciousness delivered @ your doorstep with flat 10% off. Use code FLASH10 & order now https://goo.gl/zOPpMo. Enjoy 20% freecharge cashback too.",
         "Get deliciousness delivered @ your doorstep with flat 10% off. Use code FLASH10 & order now https://goo.gl/zOPpMo. Enjoy 20% freecharge cashback too.",
@@ -771,8 +674,8 @@ export const defaultModelData = {
         "Special Offer\nRs31=Local+STD Mobile 50p/min, 28 din\nRs129=250 Local+STD minute, 28 din\nClick: airtel.in/app\nRs29=75MB 3G data, 30 din. Dial *567*29#",
         "Festive Food Mania - Get flat 10% off on tasty delights with code FESTIVAL. Also, pay via freecharge for 20% cash back. Order now: https://goo.gl/zOPpMo.",
         "Flat 40% off on first 1000 orders, use code RUSHCZ. Get 10% thereon, use code WOW (starts 12pm). Get 20% freecharge cash back too.Order: https://goo.gl/zOPpMo.",
-        "Dominos Super Value Offer 'Only For You'; Buy 1 Pizza & Get 1 Pizza FREE.WalkIn/Order@ 68886888/ @dominos.co.in Cpn: CRM8771B7F50A Valid till 09 Oct T&C",
-        "Attend an interactive session with TIME Expert for CAT '17 preparation on 'SPEED MATHS' on 9TH OCT at 4.15PM. Register at TIME Noida @ 0120 4572554.",
+        "Dominos Super Value Offer \"Only For You\"; Buy 1 Pizza & Get 1 Pizza FREE.WalkIn/Order@ 68886888/ @dominos.co.in Cpn: CRM8771B7F50A Valid till 09 Oct T&C",
+        "Attend an interactive session with TIME Expert for CAT '17 preparation on \"SPEED MATHS\" on 9TH OCT at 4.15PM. Register at TIME Noida @ 0120 4572554.",
         "The PRETTY LOOKS Rs.1499 Pick any 5 (BLEACH/GLOW FACIAL/FA/FL/TH/UL/MANI/PEDI/HAIR CUT/HAIR SPA valid till 13 Oct cont: 9810188769",
         "The PRETTY LOOKS Offer Rs.999 pick any 5 (BLEACH/GLOW FACIAL/FA WAX /HL WAX/TH/UL/MANICURE/HAIR CUT/FULL BACK BLEACH) COL TUP 499 valid till 13 Oct 9810188769",
         "2301 TIME students secured 10221 final selections from IIMs in CAT15.Join TIME for CAT17 & avail discount upto  11423 till 9th Oct.Call TIME CP  @43626325.",
@@ -790,7 +693,7 @@ export const defaultModelData = {
         "Dear Unnati, thanks for registering @ THE PRETTY LOOKS. Please download our app : http://goo.gl/SjMnzd. Like us on Facebook at http://goo.gl/RhC26G. To opt out SMS STOP 734672 to 09250407799 Here are your next 5 cashback coupons from the Exclusife Club. Click http://exls.in/V1S6FH7",
         "Special Offer\nRs31=Local+STD Mobile 50p/min, 28 din\nRs129=250 Local+STD minute, 28 din\nClick: airtel.in/app\nRs29=75MB 3G data, 30 din. Dial *567*29#",
         "Dear Student,TIME East Delhi Starting new batches for CAT17 ENROLL Now!!to get discount upto'11423' valid till 9th oct .Contact\n 01122420468/66/67.",
-        "Dominos Super Value Offer 'Only For You'; Buy 1 Pizza & Get 1 Pizza FREE.WalkIn/Order@ 68886888/ @dominos.co.in Cpn: CRMF3EFDB88C0 Valid till 02 Oct T&C",
+        "Dominos Super Value Offer \"Only For You\"; Buy 1 Pizza & Get 1 Pizza FREE.WalkIn/Order@ 68886888/ @dominos.co.in Cpn: CRMF3EFDB88C0 Valid till 02 Oct T&C",
         "Dear Student, Please note that TIME CP Centre will remain closed on 2nd Oct (Sunday) on the occasion of Gandhi Jayanti. TIME CP-43626321",
         "ICFAI Business School, one of the India's Leading Business School has opened Applications for 2017 MBA.PGPM Program. For more details click goo.gl/dhBL2m",
         "ICFAI Business School, one of the India's Leading Business School has opened Applications for 2017 MBA.PGPM Program. For more details click goo.gl/dhBL2m",
@@ -798,7 +701,7 @@ export const defaultModelData = {
         "Dear Student,TIME East Delhi Starting new batches for CAT17  ENROLL Now!!to get discount upto '12423' valid till 30 Sep. Contact-01122420468/66/67.",
         "2301 TIME students secured 10221 final selections from IIMs in CAT15.Join TIME for CAT17 & avail discount upto 12423 till 30th Sept(Today)Call TIMECP@43626325",
         "Rs11 Deals starts tomorrow @ 1PM on GoPaisa Android App. Buy Pendrives, Hardisks, Shoes, TShirts, Facewashes & more at Rs11. Download Now! https://goo.gl/EAA6k1",
-        "Join new batches in progress for CAT-2017 to get all early mover advantage along with discount of Rs '12423' valid till 30 Sep,Contact T.I.M.E 01122420466/68/67",
+        "Join new batches in progress for CAT-2017 to get all early mover advantage along with discount of Rs \"12423' valid till 30 Sep,Contact T.I.M.E 01122420466/68/67",
         "2301 TIME students secured 10221 final selections from IIMs in CAT15.Join TIME for CAT17 & avail discount upto  12423 till 30th Sept.Call TIME CP @ 43626325",
         "Special Offer\nRs31=Local+STD Mobile 50p/min, 28 din\nRs129=250 Local+STD minute, 28 din\nClick: airtel.in/app\nRs29=75MB 3G data, 30 din. Dial *567*29#",
         "Reliance Digital presents Ultra HD Fiesta. Get up to 30% OFF on a wide range of UHD TV starting from Rs. 42 990 + earn BIG reward points. Hurry, Ltd stocks! TnC",
@@ -808,14 +711,14 @@ export const defaultModelData = {
         "Special Offer\nRs31=Local+STD Mobile 50p/min, 28 din\nRs129=250 Local+STD minute, 28 din\nClick: airtel.in/app\nRs29=75MB 3G data, 30 din. Dial *567*29#",
         "2301 TIME students secured 10221 final selections from IIMs alone in CAT15.Join TIME  for CAT17 and avail discount upto12423 till 30th Sep.Call TIME CP43626325",
         "Get ready for Digital Transformation technologies with NIIT DIGINXT PROGRAMS for BCA/MCA/B.tech-IT/CS. Visit NIIT FBD Centre or call 9990141276 NIIT Faridabad",
-        "Join new batches in progress for CAT-2017 to get all early mover advantage along with discount of Rs '12423' valid till 30 Sep,Contact T.I.M.E 01122420466/68/67",
-        "Join new batches in progress for CAT-2017 to get all early mover advantage along with discount of Rs '12423' valid till 25 Sep,Contact T.I.M.E 01122420466/68/67",
+        "Join new batches in progress for CAT-2017 to get all early mover advantage along with discount of Rs \"12423' valid till 30 Sep,Contact T.I.M.E 01122420466/68/67",
+        "Join new batches in progress for CAT-2017 to get all early mover advantage along with discount of Rs \"12423' valid till 25 Sep,Contact T.I.M.E 01122420466/68/67\"",
         "Quest Diagnostics, America's leading pathology laboratory, offers wellness tests with risk status of your organs at Rs. 999. Give us a missed call on 9266613131",
         "It's GOOD TO GIFT! Get designer Gift bags & Gift cards by leading fashion designer, MASABA GUPTA. Check https://goo.gl/HtBCw3 to see the designs. T&C",
         "Join CAT '17 weekend batch starting from 24th Sep '16 & avail discount upto Rs.12423 valid till 25th Sep '16. For details, contact TIME Noida @ 4572554/ 4310109",
         "Celebrate with TIME CP (2301 TIME students finally joined IIMs) by availing the discount upto Rs.12423/- on CAT-17 till 25th Sept.TIME CP-43626321",
         "Celebrate with TIME CP (2301 TIME students finally joined IIMs) by availing the discount upto Rs.12423/- on CAT-17 till 25th Sept.TIME CP-43626321",
-        "Join new batches in progress for CAT-2017 to get all early mover advantage along with discount of Rs '12423' valid till 25 Sep,Contact T.I.M.E 01122420466/68/67",
+        "Join new batches in progress for CAT-2017 to get all early mover advantage along with discount of Rs \"12423' valid till 25 Sep,Contact T.I.M.E 01122420466/68/67",
         "Special Offer\nRs31=Local+STD Mobile 50p/min, 28 din\nRs129=250 Local+STD minute, 28 din\nClick: airtel.in/app\nRs29=75MB 3G data, 30 din. Dial *567*29#",
         "Protect your kids from dengue and chikungunya with ODOMOS 8 hour protection. Completely safe on skin. Buy now from  http://qwr.in/wkxwl2",
         "Celebrate with TIME CP (2301 TIME students finally joined IIMs) by availing the discount upto Rs.12423/- on CAT-17 till  Sept.TIME CP-43626321",
@@ -824,7 +727,7 @@ export const defaultModelData = {
         "Special Offer\nRs31=Local+STD Mobile 50p/min, 28 din\nRs129=250 Local+STD minute, 28 din\nClick: airtel.in/app\nRs29=75MB 3G data, 30 din. Dial *567*29#",
         "Dear Student,TIME East Delhi Starting new batches for CAT17 ENROLL Now!!to get discount upto '12423' valid till 25th Sep. Contact-01122420468/66/67.",
         "Celebrate with TIME CP (2301 TIME students finally joined IIMs) by availing the discount upto Rs.12423/- on CAT-17 till 18h Sept(Today).TIME CP-43626321",
-        "Join new batches in progress for CAT-2017 to get all early mover advantage along with discount of Rs '12423' valid till 18 Sep,Contact T.I.M.E 01122420466/68/67 ",
+        "Join new batches in progress for CAT-2017 to get all early mover advantage along with discount of Rs \"12423' valid till 18 Sep,Contact T.I.M.E 01122420466/68/67\"",
         "Be a Festive Diva! Dazzle at the celebrations with our new launches in lip colours, foundations, eye makeup & more. Check https://goo.gl/DqV7Xs to see our range",
         "Non stop rewards only with American Express Credit Cards. Apply and get Rs.500 Flipkart gift voucher. Click  resu.io/pJlmMWyKB to proceed. T&C apply.",
         "CAREER LAUNCHER NOIDA UPCOMING BATCHES:CAT-17 (Fundamental Batch) Starting from-17th Sept(Attend Demo Class-Tomorrow,3-5pm) ,SSC Mains-19th Sep.(No Demo Class), CAT-16 IIM Express-30th Sep(No Demo Class)..For more details call-0120-4312135/6",
@@ -890,7 +793,7 @@ export const defaultModelData = {
         "Level Up, Captain!\r\nYou're one step closer to being a part of an All-Star team. Check your email (don't forget the Spam/Promotion section) for more information. \r\nDeadline - 48 Hours.\r\nQuestions? Write us at careers@fitsquare.in",
         "As per ur request HCL Noida launching fresh summer training batch 4m technology experts on 20th Jun.Registr & avail scholarship benefit.Limited seats.9212577708",
         "You have 2 missed call(s) from +919997773545. last call: 11-06-2016 18:36.",
-        "AdityaS (9999043058): GET WELL SOON 💐\n\n- sent via hike free sms",
+        "AdityaS (9999043058): GET WELL SOON \uD83D\uDC90\n\n- sent via hike free sms",
         "Final reminder 4m India's Top IT Company HCL Noida.Fresh Summer Training batch starting 4m 13th june.Limited seats.Last date 4 admission is 11th June.9212577708",
         "Recharge Successful on 07-06-2016 at 11:30AM,MRP: Rs 306.00,STax: Rs39.91,Talktime: RS306.00,TransID 1662516789 Benefit:-FTT 306 with Roaming Tariff - Incoming Free, Outgoing local @ 80p/min, STD @1.15Rs/min for 28 Days",
         "Best offers for you\n1 648=UL LA2A+1GB 3G\n2 41= L+STD 1.2p/s,56D\n3 306 FTT+free IC Roam\n4 296=1GB+1GB(N)3G,28D\n5 355=2GB 3G+1GB 4G,28D\n6 455=3GB 3G+1GB 4G,28D\n7 Rs340=Rs340,Unlimited\n8 Rs510=510TT,Unlimited\n\nUnlimited Net for 1 Hr. Dial 56565",
@@ -901,16 +804,16 @@ export const defaultModelData = {
         "You have 2 missed call(s) from +919999043058. last call: 13-05-2016 13:25.",
         "You have 1 missed call(s) from +919997773545. last call: 11-05-2016 22:12.",
         "You have 1 missed call(s) from +919910099443. last call: 09-05-2016 13:35.",
-        "Congratulations! \nYour have been shortlisted for the second round of interview for T&P which is scheduled at 12 pm on Wednesday i.e. 4th May'16 at T&P office. Be there on time and in Proper Uniform. \n-T&P Cell.",
+        "Congratulations! \nYour have been shortlisted for the second round of interview for T&P which is scheduled at 12 pm on Wednesday i.e. 4th May'16 at T&P office. Be there on time and in \"Proper Uniform\". \n-T&P Cell.",
         "Hi Guys,Summer Training with IIT Delhi. limited seats now. Industrial experts will trained you. attend free workshop too.\ncall or whatsapp Anuradha 9718009944",
-        "\nYour first round of interview for T&P is scheduled at 4 pm on Tuesday 26th April''16 at T&P office. Be there on time and in 'Proper Uniform'. \n-T&P Cell.",
+        "\nYour first round of interview for T&P is scheduled at 4 pm on Tuesday 26th April''16 at T&P office. Be there on time and in \"Proper Uniform\". \n-T&P Cell.",
         "Pizzahut Biggest Ever Offer: Any Pan Pizza for just Rs 199 Each, when you buy 2 pizzas (save upto 60%) Walk-in/Call@ 011-39883988 order@ www.pizzahut.co.in TnC",
         "Free 100MB Night Data (12-6AM) for 7 days credited. Bal Check: *123*197# Keep using MyAirtel to get 100MB more next month. For more free data! airtel.in/free",
         "Thank you for downloading my airtel app. Your One Time Password(OTP) for completing your registration on the app is 8635. It is usable once and valid for 30 mins from the request. Please do not share OTP with anyone.",
         "Free Music on Airtel.Click http://wynk.in/mu/DL.",
         "Recharge done on 13-04-2016 08:37PM,MRP:Rs100.00,PF:Rs3.00,STax:Rs12.66,Talktime:RS84.34,Bal:Rs326.26 TransID1089064478.",
         "SiddharthC: Acha sun.. Jo tujhe malum ki pakka aa raha wohi bata de\n\n- sent via hike free sms",
-        "SORRY 😑",
+        "SORRY \uD83D\uDE11",
         "Your Flipkart shipment with AWB Number 596254454140  & Order no. Q-136451726 is out for delivery. For any queries contact us at (0124) 6719500 Track on mobile: http://goo.gl/gbFbJK",
         "Avon Little Black & Wh... was shipped at Apr 3 5:48 AM  and will be delivered   by Wednesday, Apr 06, 2016.  You can track your shipment at http://fkrt.it/8DkHNuuuuN.  Invoice will be sent to your registered email within 24 hours of delivery.",
         "Avon Little Black & Wh... is packed by seller and ready to be shipped. You will get tracking details once we ship it.",
@@ -955,7 +858,7 @@ export const defaultModelData = {
         "You have 1 missed call(s) from +919999043058. last call: 26-01-2016 19:24.",
         "You have 1 missed call(s) from +919999043058. last call: 22-01-2016 16:52.",
         "Set Top Box is now mandatory to watch TV. Hurry! As Airtel user you can buy Airtel DigitalTV & get spl. discount of Rs500.To buy give missed call on 7678076780",
-        "Respected Sir/Ma'am,\nThere is a training session being organized for all JIIT delegates. tomorrow i.e 19/1/16 in G1,G2,G3,G4 at 5pm for Jaypee Model United Nations 2016.\nThis is to help you with the research for conference. Please be on time.",
+        "Respected Sir/Ma'am,\nThere is a training session being organized for all JIIT delegates. tomorrow  i.e 19/1/16 in G1,G2,G3,G4 at 5pm for Jaypee Model United Nations 2016.\nThis is to help you with the research for conference. Please be on time.",
         "Unnati if you don't want to reply then it's fine ..I only had intentions of helping you and it was imp so was calling u ..do what u want to",
         "Your Google verification code is 180261",
         "Snapchat Code: 971473. Happy Snapping!",
@@ -1053,7 +956,7 @@ export const defaultModelData = {
         "Nonita (9509630091): Heyya\n\nm soooo sorry \n\nmeine bht pitne wala kaam kiya h..... Itta late wiah kr rhi hu bt actually m tujhe call try kr rhi hu subh se 99 wale no. Se bt tune uthaya hi nbu maybe new no. H issliye\n\nN watsapp m b kuch prob aa rhi h mere\nBt how so ever my mistake n dat toooo a big one so m realllly really vry sry bt i promise mujhe kl se yaad tha ki aaj tera bday h\n\nhapppppppyyyyyy birthday n many happy returns of d day .......... N pls pick up d call n yeah haapy bday again\n\n- sent via hike free sms",
         "Person having total income exceeding Rs.2.5 lac must file Income-tax Return by 31/08/2015 - ITDEPT",
         "You have 1 missed call(s) from +919999043058. last call: 13-08-2015 18:04.",
-        "Aji Proxy _/ :*:* 4 ki :p",
+        "Aji Proxy _/\\_ :*:* 4 ki :p",
         "You have 1 missed call(s) from +919999043058. last call: 11-08-2015 19:25.",
         "You have 2 missed call(s) from +919997773545. last call: 11-08-2015 13:45.",
         "NIIT Appraisal Result: Reg# - R160006500542(00065), Batch:B160132, Appraisal:PIJR2MTO02, Score= 80.00%.",
@@ -1150,7 +1053,7 @@ export const defaultModelData = {
         "Recharge Successful on 19-01-2015 at 04:02PM,MRP: Rs 260.00, STax: Rs28.60, TransID 1011929216.",
         "Recharge Successful on 20-12-2014 at 01:18PM,MRP: Rs 199.00, STax: Rs21.89, TransID 779244067. Validity:28 Days Benefit:1.25 GB 2G Data,28 days. Info http://56789.airtel.in,For myPack, CALL 1294",
         "Richa (9045480080): watch\n\n- sent via hike free sms",
-        "😁",
+        "\uD83D\uDE01",
         ":p",
         "Keep thinking..",
         "Hi Kya comp k syllabus mai file handling included h?",
@@ -1222,6 +1125,5 @@ export const defaultModelData = {
         "Haan pr jahan tk h aaj hi aa jayega...",
         "Kuch pta chala??",
         "Aur tu bhi btana.."
-    ],
-
+    ]
 }
